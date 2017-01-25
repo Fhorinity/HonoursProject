@@ -10,26 +10,63 @@ public class Raycasting : MonoBehaviour {
     public bool isCarrying = false;
     public GameObject _CarriedObject;
 
+    private Valve.VR.EVRButtonId triggerButton = Valve.VR.EVRButtonId.k_EButton_SteamVR_Trigger;
+    public bool triggerButtonDown = false;
+    public bool triggerButtonUp = false;
+    public bool triggerButtonPressed = false;
+
+    private SteamVR_Controller.Device controller { get { return SteamVR_Controller.Input((int)trackedObj.index); } }
+    private SteamVR_TrackedObject trackedObj;
+
 
     void Start()
     {
-
+        trackedObj = GetComponent<SteamVR_TrackedObject>();
     }
 
     void Update()
     {
         RaycastHit hit;
-        Ray ray = _camera.ViewportPointToRay(new Vector3(.5f, .5f, .5f));
+        GameObject gameObject = null;
+       // Ray ray = _camera.ViewportPointToRay(new Vector3(.5f, .5f, .5f));
 
-        if (Physics.Raycast(ray, out hit, range))
+        if (controller == null)
         {
-            Debug.DrawRay(ray.origin, ray.direction, Color.green);
-            if (hit.collider.tag == "Throwable")
-            {
-                canSee = true;
-                Debug.Log("Hi I can be thrown");
-                CarryCheck();
+            Debug.Log("Controller no initialized");
+            return;
+        }
 
+        triggerButtonDown = controller.GetPressDown(triggerButton);
+        triggerButtonUp = controller.GetPressUp(triggerButton);
+        triggerButtonPressed = controller.GetPress(triggerButton);
+
+
+        if(triggerButtonDown)
+                {
+            canSee = true;
+            Debug.Log("Hi I can be thrown");
+
+
+            CarryCheck();
+        }
+
+        if (triggerButtonUp)
+        {
+            Debug.Log("Unpressed");
+        }
+
+        if (triggerButtonPressed)
+        {
+            Debug.Log("Held Down");
+        }
+        if (Physics.Raycast(transform.position, transform.forward, out hit))
+        {
+            gameObject = hit.collider.gameObject;
+
+            
+            if (hit.collider.gameObject.tag == "Throwable")
+            {
+                Debug.Log("Blah");
 
             }
             else
