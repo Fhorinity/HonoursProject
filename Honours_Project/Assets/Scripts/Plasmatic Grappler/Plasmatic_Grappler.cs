@@ -6,23 +6,30 @@ public class Plasmatic_Grappler : MonoBehaviour
 {
     public Transform cam;
     private RaycastHit hit;
-    private Rigidbody rb;
+   // private Rigidbody rb;
     private bool attached = false;
     private float momentum;
     public float speed;
     private float step;
+    private GameObject player;
 
     public float maxDistance;
     public LayerMask layerMask;
 
     private Valve.VR.EVRButtonId gripButton = Valve.VR.EVRButtonId.k_EButton_Grip;
-    public bool gripButtonDown = false;
-    public bool gripButtonUp = false;
-    public bool gripButtonPressed = false;
+    private bool gripButtonDown = false;
+    private bool gripButtonUp = false;
+    private bool gripButtonPressed = false;
     private Valve.VR.EVRButtonId triggerButton = Valve.VR.EVRButtonId.k_EButton_SteamVR_Trigger;
-    public bool triggerButtonDown = false;
-    public bool triggerButtonUp = false;
-    public bool triggerButtonPressed = false;
+    private bool triggerButtonDown = false;
+    private bool triggerButtonUp = false;
+    private bool triggerButtonPressed = false;
+
+    private Valve.VR.EVRButtonId dpad = Valve.VR.EVRButtonId.k_EButton_SteamVR_Touchpad;
+    public bool dpadDown = false;
+    public bool dpadUp = false;
+    public bool dpadLeft = false;
+    public bool dpadRight = false;
 
     private SteamVR_Controller.Device controller { get { return SteamVR_Controller.Input((int)trackedObj.index); } }
     private SteamVR_TrackedObject trackedObj;
@@ -30,6 +37,7 @@ public class Plasmatic_Grappler : MonoBehaviour
     // Use this for initialization
     void Start()
     {
+        player = GameObject.Find("[CameraRig]");
         trackedObj = GetComponent<SteamVR_TrackedObject>();
 
     }
@@ -47,23 +55,26 @@ public class Plasmatic_Grappler : MonoBehaviour
         gripButtonUp = controller.GetPressUp(gripButton);
         gripButtonPressed = controller.GetPress(gripButton);
 
+        dpadDown = controller.GetPressDown(dpad);
+
         triggerButtonDown = controller.GetPressDown(triggerButton);
         triggerButtonUp = controller.GetPressUp(triggerButton);
         triggerButtonPressed = controller.GetPress(triggerButton);
 
-        if (triggerButtonPressed)
+        if (triggerButtonUp)
         {
             if (Physics.Raycast(cam.position, cam.forward, out hit, maxDistance, layerMask))
             {
                 attached = true;
-                rb.isKinematic = true;
+
+                player.GetComponent<Rigidbody>().isKinematic = true;
             }
         }
-        if (triggerButtonUp)
+        if (triggerButtonPressed)
         {
             attached = false;
-            rb.isKinematic = false;
-            rb.velocity = cam.forward * momentum;
+           player.GetComponent<Rigidbody>().isKinematic = false;
+            player.GetComponent<Rigidbody>().velocity = cam.forward * momentum;
         }
 
         if (attached)
