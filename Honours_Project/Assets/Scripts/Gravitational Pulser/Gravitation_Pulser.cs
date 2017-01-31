@@ -10,6 +10,8 @@ public class Gravitation_Pulser : MonoBehaviour {
     public Transform holdPosition;
     private float throwForce = 10.0f;
     public ForceMode throwForceMode;
+    public float maxYDim;
+    public float speedMultiplier;
 
     public AnimationCurve forceOverDist;
 
@@ -31,6 +33,18 @@ public class Gravitation_Pulser : MonoBehaviour {
     void Start()
     {
         trackedObj = GetComponent<SteamVR_TrackedObject>();
+    }
+
+    IEnumerator _GrabbedObject()
+    {
+        float curveTime = 0f;
+        float curveAmount = forceOverDist.Evaluate(curveTime);
+        while (curveAmount < 1.0f)
+        {
+            curveTime += Time.deltaTime * speedMultiplier;
+            curveAmount = forceOverDist.Evaluate(curveTime);
+            yield return null;
+        }
     }
 
     void Update()
@@ -61,9 +75,24 @@ public class Gravitation_Pulser : MonoBehaviour {
                     if (hit.collider.gameObject.tag == "Throwable")
                     {
                         heldObject = hit.collider.gameObject;
+                        // Add Force to object
+                        //Maybe use
+                        // StartCoroutine(_GrabbedObject()); //?
+                        //heldObject.GetComponent<Rigidbody>().MovePosition()
+                        // If statement if positioning of the object hits a trigger then apply some force below it
+                        // if (triggerOne)
+                        //{
+                        // Addforce on Y position
+                        // Addforce increases faster the closer it gets
+                        // }
+                        //If (triggerTwo)
+                        //{
+                        //If statem if postioning of object passes second trigger it will do the following below.
+
                         heldObject.GetComponent<Rigidbody>().isKinematic = true;
                         heldObject.GetComponent<Collider>().enabled = true;
                         Debug.DrawRay(transform.position, transform.forward, Color.red);
+                        //}
                     }
                 }
             }
