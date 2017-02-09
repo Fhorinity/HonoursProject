@@ -12,6 +12,7 @@ public class Gravitation_Pulser : MonoBehaviour {
     public ForceMode throwForceMode;
     public float maxYDim;
     public float speedMultiplier;
+    private bool controllerEvents = false;
 
     public AnimationCurve forceOverDist;
 
@@ -69,30 +70,33 @@ public class Gravitation_Pulser : MonoBehaviour {
         {
             if (Physics.Raycast(transform.position, transform.forward, out hit, grabDistance, layerMask))
             {
-                // Pick Up Objects // - // ANimation Curve with force
-                if (gripButtonDown)
+                if (controllerEvents)
                 {
-                    if (hit.collider.gameObject.tag == "Throwable")
+                    // Pick Up Objects // - // ANimation Curve with force
+                    if (gripButtonDown)
                     {
-                        heldObject = hit.collider.gameObject;
-                        // Add Force to object
-                        //Maybe use
-                        // StartCoroutine(_GrabbedObject()); //?
-                        //heldObject.GetComponent<Rigidbody>().MovePosition()
-                        // If statement if positioning of the object hits a trigger then apply some force below it
-                        // if (triggerOne)
-                        //{
-                        // Addforce on Y position
-                        // Addforce increases faster the closer it gets
-                        // }
-                        //If (triggerTwo)
-                        //{
-                        //If statem if postioning of object passes second trigger it will do the following below.
+                        if (hit.collider.gameObject.tag == "Throwable")
+                        {
+                            heldObject = hit.collider.gameObject;
+                            // Add Force to object
+                            //Maybe use
+                            // StartCoroutine(_GrabbedObject()); //?
+                            //heldObject.GetComponent<Rigidbody>().MovePosition()
+                            // If statement if positioning of the object hits a trigger then apply some force below it
+                            // if (triggerOne)
+                            //{
+                            // Addforce on Y position
+                            // Addforce increases faster the closer it gets
+                            // }
+                            //If (triggerTwo)
+                            //{
+                            //If statem if postioning of object passes second trigger it will do the following below.
 
-                        heldObject.GetComponent<Rigidbody>().isKinematic = true;
-                        heldObject.GetComponent<Collider>().enabled = true;
-                        Debug.DrawRay(transform.position, transform.forward, Color.red);
-                        //}
+                            heldObject.GetComponent<Rigidbody>().isKinematic = true;
+                            heldObject.GetComponent<Collider>().enabled = true;
+                            Debug.DrawRay(transform.position, transform.forward, Color.red);
+                            //}
+                        }
                     }
                 }
             }
