@@ -1,6 +1,10 @@
 ﻿using UnityEngine;
+using UnityEngine.Events;
 using System.Collections;
 
+
+
+[RequireComponent(typeof(SteamVR_TrackedObject))]
 public class Gravitation_Pulser : MonoBehaviour {
 
     // public bool canSee = false;
@@ -19,15 +23,31 @@ public class Gravitation_Pulser : MonoBehaviour {
     private GameObject heldObject = null;
     public LayerMask layerMask = -1;
 
-    private Valve.VR.EVRButtonId gripButton = Valve.VR.EVRButtonId.k_EButton_Grip;
-    public bool gripButtonDown = false;
-    public bool gripButtonUp = false;
-    public bool gripButtonPressed = false;
-    private Valve.VR.EVRButtonId triggerButton = Valve.VR.EVRButtonId.k_EButton_SteamVR_Trigger;
-    public bool triggerButtonDown = false;
-    public bool triggerButtonUp = false;
-    public bool triggerButtonPressed = false;
 
+    // Trigger 
+    // press
+    public UnityEvent onTriggerPress;
+
+    // down (float axis)
+    public TriggerAxisEvent onTrigger;
+
+    // up
+    public UnityEvent onTriggerRelease;
+
+    // Grip button
+    // press
+    public UnityEvent onGripPress;
+
+    // down
+    public UnityEvent onGrip;
+
+    // up
+    public UnityEvent onGripRelease;
+
+
+    private Valve.VR.EVRButtonId gripButton = Valve.VR.EVRButtonId.k_EButton_Grip;
+    private Valve.VR.EVRButtonId triggerButton = Valve.VR.EVRButtonId.k_EButton_SteamVR_Trigger;
+    
     private SteamVR_Controller.Device controller { get { return SteamVR_Controller.Input((int)trackedObj.index); } }
     private SteamVR_TrackedObject trackedObj;
 
@@ -50,53 +70,44 @@ public class Gravitation_Pulser : MonoBehaviour {
 
     void Update()
     {
-        RaycastHit hit;
+        
         if (controller == null)
         {
             Debug.Log("Controller no initialized");
             return;
         }
+        if (controller.GetPressDown(gripButton))
+        {
+            RaycastHit hit;
 
-        gripButtonDown = controller.GetPressDown(gripButton);
-        gripButtonUp = controller.GetPressUp(gripButton);
-        gripButtonPressed = controller.GetPress(gripButton);
-
-        triggerButtonDown = controller.GetPressDown(triggerButton);
-        triggerButtonUp = controller.GetPressUp(triggerButton);
-        triggerButtonPressed = controller.GetPress(triggerButton);
-        
-        // 1st Iteration of Gravity gun //
-        if (heldObject == null)
+            // 1st Iteration of Gravity gun //
+            if (heldObject == null)
         {
             if (Physics.Raycast(transform.position, transform.forward, out hit, grabDistance, layerMask))
             {
-                if (controllerEvents)
-                {
-                    // Pick Up Objects // - // ANimation Curve with force
-                    if (gripButtonDown)
+                // Pick Up Objects // - // ANimation Curve with force
+                  onGripPress.Invoke();
+                    if (hit.collider.gameObject.tag == "Throwable")
                     {
-                        if (hit.collider.gameObject.tag == "Throwable")
-                        {
-                            heldObject = hit.collider.gameObject;
-                            // Add Force to object
-                            //Maybe use
-                            // StartCoroutine(_GrabbedObject()); //?
-                            //heldObject.GetComponent<Rigidbody>().MovePosition()
-                            // If statement if positioning of the object hits a trigger then apply some force below it
-                            // if (triggerOne)
-                            //{
-                            // Addforce on Y position
-                            // Addforce increases faster the closer it gets
-                            // }
-                            //If (triggerTwo)
-                            //{
-                            //If statem if postioning of object passes second trigger it will do the following below.
+                        heldObject = hit.collider.gameObject;
+                        // Add Force to object
+                        //Maybe use
+                        // StartCoroutine(_GrabbedObject()); //?
+                        //heldObject.GetComponent<Rigidbody>().MovePosition()
+                        // If statement if positioning of the object hits a trigger then apply some force below it
+                        // if (triggerOne)
+                        //{
+                        // Addforce on Y position
+                        // Addforce increases faster the closer it gets
+                        // }
+                        //If (triggerTwo)
+                        //{
+                        //If statem if postioning of object passes second trigger it will do the following below.
 
-                            heldObject.GetComponent<Rigidbody>().isKinematic = true;
-                            heldObject.GetComponent<Collider>().enabled = true;
-                            Debug.DrawRay(transform.position, transform.forward, Color.red);
-                            //}
-                        }
+                        heldObject.GetComponent<Rigidbody>().isKinematic = true;
+                        heldObject.GetComponent<Collider>().enabled = true;
+                        Debug.DrawRay(transform.position, transform.forward, Color.red);
+                        //}
                     }
                 }
             }
@@ -105,9 +116,9 @@ public class Gravitation_Pulser : MonoBehaviour {
         {
             heldObject.transform.position = holdPosition.position;
             heldObject.transform.rotation = holdPosition.rotation;
-            
+
             // Drop Held Objects //
-            if (gripButtonDown)
+            if (controller.GetPressDown(gripButton)) 
             {
                 Rigidbody body = heldObject.GetComponent<Rigidbody>();
                 body.isKinematic = false;
@@ -116,7 +127,7 @@ public class Gravitation_Pulser : MonoBehaviour {
             }
 
             // Launches Held Objects //
-            if (triggerButtonDown)
+            if (controller.GetPressDown(triggerButton))
             {
                 Rigidbody body = heldObject.GetComponent<Rigidbody>();
                 body.isKinematic = false;
@@ -127,7 +138,5 @@ public class Gravitation_Pulser : MonoBehaviour {
         }
 
         // 2nd Iteration of Gravity Gun // 
-
-
     }       
 }
