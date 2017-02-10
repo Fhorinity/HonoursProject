@@ -23,6 +23,7 @@ public class VRControllerEvents : MonoBehaviour
     public bool useMovementControls = false;
     private bool gp_Pick = false;
     private bool gp_DropLaunch = false;
+    public GameObject rigArea;
 
     public float grabDistance = 10.0f;
     public Transform holdPosition;
@@ -35,6 +36,8 @@ public class VRControllerEvents : MonoBehaviour
 
     private GameObject heldObject = null;
     public LayerMask layerMask = -1;
+   // [HideInInspector]
+   // public bool isGrounded = true;
 
     // Trigger
     // press 
@@ -132,7 +135,7 @@ public class VRControllerEvents : MonoBehaviour
         {
             heldObject.transform.position = holdPosition.position;
             heldObject.transform.rotation = holdPosition.rotation;
-            gp_Pick = false;
+            
             gp_DropLaunch = true;
 
         }
@@ -171,6 +174,7 @@ public class VRControllerEvents : MonoBehaviour
                             heldObject.GetComponent<Rigidbody>().isKinematic = true;
                             heldObject.GetComponent<Collider>().enabled = true;
                             Debug.DrawRay(transform.position, transform.forward, Color.red);
+                            gp_Pick = false;
                             //}
                         }
                     }
@@ -182,6 +186,7 @@ public class VRControllerEvents : MonoBehaviour
                     body.AddForce(throwForce * transform.forward, throwForceMode);
                     heldObject = null;
                     Debug.DrawRay(transform.position, transform.forward, Color.red);
+                    gp_DropLaunch = false;
                 }
             }
         }
@@ -227,6 +232,7 @@ public class VRControllerEvents : MonoBehaviour
                     body.isKinematic = false;
                     heldObject = null;
                     Debug.DrawRay(transform.position, transform.forward, Color.red);
+                    gp_DropLaunch = false;
                 }
             }
         }
@@ -242,7 +248,12 @@ public class VRControllerEvents : MonoBehaviour
         if (controller.GetPressDown(gripButton))
         {
             onGripPress.Invoke();
-            rig.position += new Vector3(0, 20, 0) * accelmultipler * Time.deltaTime;
+
+         //   if (isGrounded)
+       //     {
+                rig.GetComponent<Rigidbody>().AddForce(new Vector3(0, 1000, 0));
+        //    }
+                   
         }
 
         // press
@@ -278,7 +289,7 @@ public class VRControllerEvents : MonoBehaviour
             if (useMovementControls)
             {
                 rig.position += new Vector3(axis.x, 0, axis.y) * accelmultipler * Time.deltaTime;
-                rig.rotation = headset.rotation;
+               // rig.rotation = headset.rotation;
             }
         }
         else if (controller.GetTouch(touchpad)) // touchpad
@@ -289,7 +300,7 @@ public class VRControllerEvents : MonoBehaviour
             if (useMovementControls)
             {
                 rig.position += new Vector3(axis.x, 0, axis.y) * accelmultipler * Time.deltaTime;
-                rig.rotation = headset.rotation; 
+             //   rig.rotation = headset.rotation; 
             }  
         }
         // up
@@ -307,7 +318,5 @@ public class VRControllerEvents : MonoBehaviour
             // rig.position -= new Vector3(axis.x, 0, axis.y) * deceleration * Time.deltaTime;
         }
     }
-
-
 }
 

@@ -16,6 +16,9 @@ public class SteamVR_PlayArea : MonoBehaviour
 	public float wireframeHeight = 2.0f;
 	public bool drawWireframeWhenSelectedOnly = false;
 	public bool drawInGame = true;
+    private VRControllerEvents collide;
+
+
 
 	public enum Size
 	{
@@ -243,7 +246,6 @@ public class SteamVR_PlayArea : MonoBehaviour
 			Gizmos.DrawLine(b, d);
 		}
 	}
-
 	public void OnEnable()
 	{
 		if (Application.isPlaying)
@@ -275,5 +277,7 @@ public class SteamVR_PlayArea : MonoBehaviour
 
 		BuildMesh();
 	}
+
+  
 }
 
