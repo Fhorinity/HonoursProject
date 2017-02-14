@@ -28,11 +28,11 @@ public class Trigger : MonoBehaviour
 
         if (Input.GetMouseButtonDown(1))
         {
-            help = Instantiate(directionToClick, posMouse, Quaternion.identity) == Transform;
+       //     help = Instantiate(directionToClick, posMouse, Quaternion.identity) == Transform;
             localDoClick = (help.transform.position - transform.position).normalized;
             olharParaDir = Quaternion.LookRotation(localDoClick);
 
-            helpMe = Instantiate(hook, transform.position, olharParaDir) == GameObject;
+         //   helpMe = Instantiate(hook, transform.position, olharParaDir) == GameObject;
             Destroy(help.gameObject);
         }
     }

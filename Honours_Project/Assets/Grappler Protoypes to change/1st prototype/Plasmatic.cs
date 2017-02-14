@@ -2,7 +2,7 @@
 using System.Collections;
 using UnityStandardAssets.Characters.FirstPerson;
 
-public class Plasmatic_Grappler : MonoBehaviour
+public class Plasmatic : MonoBehaviour
 {
     public Camera cam; // Place on camera.
     public RaycastHit hit;
@@ -16,12 +16,12 @@ public class Plasmatic_Grappler : MonoBehaviour
 
     public int maxDistance;
 
-    public FirstPersonController fpc; // Placed on 1st person controller prefab
+   // public FirstPersonController fpc; // Placed on 1st person controller prefab
     public LineRenderer lr; //This is placed on gameobject that has linerenderer on it
 
     void Start()
     {
-        Cursor.lockState = CursorLockMode.Locked;
+      //  Cursor.lockState = CursorLockMode.Locked;
     }
 
     
@@ -40,7 +40,7 @@ public class Plasmatic_Grappler : MonoBehaviour
         if (Input.GetKey(KeyCode.Space) && isFlying)
         {
             isFlying = false;
-            fpc.CanMove = true;
+       //     fpc.CanMove = true;
             lr.enabled = false;
         }
 
@@ -48,11 +48,11 @@ public class Plasmatic_Grappler : MonoBehaviour
 
     public void FindSpot()
     {
-        if (Physics.Raycast(cam.tranform.position, cam.transform.forward, out hit, maxDistance, cullingmask))
+        if (Physics.Raycast(cam.transform.position, cam.transform.forward, out hit, maxDistance, cullingmask))
         {
             isFlying = true;
             position = hit.point;
-            fpc.CanMove = false;
+       //     fpc.CanMove = false;
             lr.enabled = true;
             lr.SetPosition(1, position);
         }
@@ -66,7 +66,7 @@ public class Plasmatic_Grappler : MonoBehaviour
         if (Vector3.Distance(transform.position, position) < 0.5f)
         {
             isFlying = false;
-            fpc.CanMove = true;
+          //  fpc.CanMove = true;
             lr.enabled = false;
         }
     }

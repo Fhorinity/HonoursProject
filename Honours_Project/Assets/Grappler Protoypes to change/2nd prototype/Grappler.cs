@@ -22,7 +22,7 @@ public class Grappler : MonoBehaviour
 
     void Start()
     {
-        player = GameObject.FindGameObjectWithtag("Player");
+        player = GameObject.FindGameObjectWithTag("Player");
         rigidbody = GetComponent<Rigidbody>();
         ropeEffect = player.GetComponent<SpringJoint>();
 
@@ -62,7 +62,7 @@ public class Grappler : MonoBehaviour
         {
             if (!ropeCollided)
             {
-                transform.Translate(0, 0, velcoity * Time.deltaTime);
+                transform.Translate(0, 0, velocity * Time.deltaTime);
             }
             else
             {

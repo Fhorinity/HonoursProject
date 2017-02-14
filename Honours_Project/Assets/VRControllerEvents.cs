@@ -10,82 +10,137 @@ public class TouchpadAxisEvent : UnityEvent<Vector2> { }
 public class TriggerAxisEvent : UnityEvent<float> { }
 
 [RequireComponent(typeof(SteamVR_TrackedObject))]
+[RequireComponent(typeof(LineRenderer))]
+[RequireComponent(typeof(AudioSource))]
 public class VRControllerEvents : MonoBehaviour
-{
+{        
+    // Editor Variables
+    [HideInInspector]
+    public bool usePlasmaticGrappler = false;
+    [HideInInspector]
+    public bool useGravitationalPulsar = false;
+    [HideInInspector]
+    public bool useMovementControls = false;
 
+    // Movement Variables
+    [HideInInspector]
     public Transform rig;
     private float accelmultipler = 5;
-   // public GameObject headset;
     private float deceleration = 4;
-    public Transform headset;
-    public bool usePlasmaticGrappler = false;
-    public bool useGravitationalPulsar = false;
-    public bool useMovementControls = false;
+    [HideInInspector]
+    public AudioSource walking;
+    [HideInInspector]
+    public AudioSource running;
+    [HideInInspector]
+    public AudioSource jumping;
+    //   [HideInInspector]
+    //  public Transform headset;
+    // [HideInInspector]
+    // public bool isGrounded = true;
+
+    // Gravitiational Pulsar Variables
     private bool gp_Pick = false;
     private bool gp_DropLaunch = false;
+    [HideInInspector]
     public GameObject rigArea;
-
+    [HideInInspector]
     public float grabDistance = 10.0f;
-    public Transform holdPosition;
+    [HideInInspector]
+    public Transform holdPosition;   
     private float throwForce = 10.0f;
+    [HideInInspector]
     public ForceMode throwForceMode;
+    [HideInInspector]
     public float maxYDim;
+    [HideInInspector]
     public float speedMultiplier;
-
+    [HideInInspector]
     public AnimationCurve forceOverDist;
-
     private GameObject heldObject = null;
+    [HideInInspector]
     public LayerMask layerMask = -1;
-   // [HideInInspector]
-   // public bool isGrounded = true;
 
+    [HideInInspector]
+    public AudioSource gp_Grab;
+    [HideInInspector]
+    public AudioSource gp_Drop;
+    [HideInInspector]
+    public AudioSource gp_Carry;
+    [HideInInspector]
+    public AudioSource gp_Fire;
+
+    // Plasmatic Grappler Variables //
+    [HideInInspector]
+    public LayerMask cullingmask;
+    [HideInInspector]
+    public bool isFlying;
+    [HideInInspector]
+    public Vector3 position; //Use the rig?
+    [HideInInspector]
+    public float speed = 10;
+    [HideInInspector]
+    public Transform referencePoint;
+    [HideInInspector]
+    public int maxDistance;
+    [HideInInspector]
+    public LineRenderer lr;
+    [HideInInspector]
+
+    public AudioSource pg_Fire;
+    [HideInInspector]
+    public AudioSource pg_Swing;
+    [HideInInspector]
+    public AudioSource pg_Release;
+
+    // Vive Control Variables //
     // Trigger
     // press 
+    [HideInInspector]
     public UnityEvent onTriggerPress;
-
+    [HideInInspector]
     // down (float axis) 
     public TriggerAxisEvent onTrigger;
-
+    [HideInInspector]
     // up
     public UnityEvent onTriggerRelease;
-
+    [HideInInspector]
     // Application button
     // press
     public UnityEvent onApplicationMenuPress;
-
+    [HideInInspector]
     // down
     public UnityEvent onApplicationMenu;
-
+    [HideInInspector]
     // up
     public UnityEvent onApplicationMenuRelease;
-
+    [HideInInspector]
     // grip button
     // press
     public UnityEvent onGripPress;
-
+    [HideInInspector]
     // down
     public UnityEvent onGrip;
-
+    [HideInInspector]
     // up
     public UnityEvent onGripRelease;
-
+    [HideInInspector]
     // touchpad touch
     // press (vector2 axis)
     public TouchpadAxisEvent onTouchPress;
-
+    [HideInInspector]
     // down (vector2 axis)
     public TouchpadAxisEvent onTouch;
-
+    [HideInInspector]
     // up (vector2 axis)
     public TouchpadAxisEvent onTouchRelease;
-
+    [HideInInspector]
     // touchpad press
     // press (vector2 axis)
     public TouchpadAxisEvent onTouchpadPress;
-
+    [HideInInspector]
     // down (vector2 axis)
     public TouchpadAxisEvent onTouchpad;
-
+    [HideInInspector]
     // up (vector2 axis)
     public TouchpadAxisEvent onTouchpadRelease;
 
@@ -115,6 +170,17 @@ public class VRControllerEvents : MonoBehaviour
             yield return null;
         }
     }
+    public void Flying()
+    {
+        transform.position = Vector3.Lerp(transform.position, position, speed * Time.deltaTime / Vector3.Distance(transform.position, position));
+        lr.SetPosition(0, referencePoint.position);
+
+        if (Vector3.Distance(transform.position, position) < 0.5f)
+        {
+            isFlying = false;
+            lr.enabled = false;
+        }
+    }
 
     void Update()
     {
@@ -139,6 +205,11 @@ public class VRControllerEvents : MonoBehaviour
             gp_DropLaunch = true;
 
         }
+
+        if (isFlying)
+        {
+            Flying();
+        }
         // TRIGGER
         // down
         if (controller.GetPressDown(triggerButton))
@@ -146,7 +217,14 @@ public class VRControllerEvents : MonoBehaviour
             onTriggerPress.Invoke();
             if (usePlasmaticGrappler)
             {
-
+                lr = gameObject.AddComponent(typeof(LineRenderer)) as LineRenderer;
+                if (Physics.Raycast(transform.position, transform.forward, out hit, maxDistance, cullingmask))
+                {
+                    isFlying = true;
+                    position = hit.point;
+                    lr.enabled = true;
+                    lr.SetPosition(1, position);
+                }
             }
             if (useGravitationalPulsar)
             {
@@ -169,7 +247,7 @@ public class VRControllerEvents : MonoBehaviour
                             // }
                             //If (triggerTwo)
                             //{
-                            //If statem if postioning of object passes second trigger it will do the following below.
+                            //If state of positioning of object passes second trigger it will do the following below.
 
                             heldObject.GetComponent<Rigidbody>().isKinematic = true;
                             heldObject.GetComponent<Collider>().enabled = true;
@@ -190,7 +268,6 @@ public class VRControllerEvents : MonoBehaviour
                 }
             }
         }
-
         // press
         if (controller.GetPress(triggerButton))
         {
@@ -198,24 +275,22 @@ public class VRControllerEvents : MonoBehaviour
             float delta = controller.GetAxis(triggerButton).x;
             onTrigger.Invoke(delta);
         }
-
         // up
         if (controller.GetPressUp(triggerButton))
         {
             onTriggerRelease.Invoke();
-            if (usePlasmaticGrappler)
+            if (usePlasmaticGrappler && isFlying)
             {
-
+                isFlying = false;
+                lr.enabled = false;
             }
         }
-
         // APPLICATION BUTTON
         // down
         if (controller.GetPressDown(applicationMenu))
         {
             onApplicationMenuPress.Invoke();
         }
-
         // press
         if (controller.GetPress(applicationMenu))
         {
@@ -236,13 +311,11 @@ public class VRControllerEvents : MonoBehaviour
                 }
             }
         }
-
         // up
         if (controller.GetPressUp(applicationMenu))
         {
             onApplicationMenuRelease.Invoke();
         }
-
         // GRIP BUTTON
         // down
         if (controller.GetPressDown(gripButton))
@@ -252,22 +325,18 @@ public class VRControllerEvents : MonoBehaviour
          //   if (isGrounded)
        //     {
                 rig.GetComponent<Rigidbody>().AddForce(new Vector3(0, 1000, 0));
-        //    }
-                   
+        //    }                 
         }
-
         // press
         if (controller.GetPress(gripButton))
         {
             onGrip.Invoke();
         }
-
         // up
         if (controller.GetPressUp(gripButton))
         {
             onGripRelease.Invoke();
         }
-
         // TOUCHPAD
         // down
         if (controller.GetPressDown(touchpad)) // touch
@@ -280,7 +349,6 @@ public class VRControllerEvents : MonoBehaviour
             axis = device.GetAxis(Valve.VR.EVRButtonId.k_EButton_Axis0);
             onTouchPress.Invoke(axis);
         }
-
         // press
         if (controller.GetPress(touchpad)) // touch
         {
@@ -317,6 +385,5 @@ public class VRControllerEvents : MonoBehaviour
             onTouchRelease.Invoke(axis);
             // rig.position -= new Vector3(axis.x, 0, axis.y) * deceleration * Time.deltaTime;
         }
-    }
+    }   
 }
-
