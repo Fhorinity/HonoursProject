@@ -12,6 +12,7 @@ public class TriggerAxisEvent : UnityEvent<float> { }
 [RequireComponent(typeof(SteamVR_TrackedObject))]
 [RequireComponent(typeof(LineRenderer))]
 [RequireComponent(typeof(AudioSource))]
+
 public class VRControllerEvents : MonoBehaviour
 {        
     // Editor Variables
