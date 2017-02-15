@@ -12,6 +12,7 @@ public class TriggerAxisEvent : UnityEvent<float> { }
 [RequireComponent(typeof(SteamVR_TrackedObject))]
 [RequireComponent(typeof(LineRenderer))]
 [RequireComponent(typeof(AudioSource))]
+[RequireComponent(typeof(Animator))]
 
 public class VRControllerEvents : MonoBehaviour
 {        
@@ -47,7 +48,7 @@ public class VRControllerEvents : MonoBehaviour
     [HideInInspector]
     public float grabDistance = 10.0f;
     [HideInInspector]
-    public Transform holdPosition;   
+    public Transform gp_ReferencePoint;   
     private float throwForce = 10.0f;
     [HideInInspector]
     public ForceMode throwForceMode;
@@ -59,8 +60,10 @@ public class VRControllerEvents : MonoBehaviour
     public AnimationCurve forceOverDist;
     private GameObject heldObject = null;
     [HideInInspector]
-    public LayerMask layerMask = -1;
+    public LayerMask gp_LayerMask;
 
+    [HideInInspector]
+    public Animator _Animator;
     [HideInInspector]
     public AudioSource gp_Grab;
     [HideInInspector]
@@ -72,7 +75,7 @@ public class VRControllerEvents : MonoBehaviour
 
     // Plasmatic Grappler Variables //
     [HideInInspector]
-    public LayerMask cullingmask;
+    public LayerMask pg_LayerMask = 9;
     [HideInInspector]
     public bool isFlying;
     [HideInInspector]
@@ -80,13 +83,13 @@ public class VRControllerEvents : MonoBehaviour
     [HideInInspector]
     public float speed = 10;
     [HideInInspector]
-    public Transform referencePoint;
+    public Transform pg_ReferencePoint;
     [HideInInspector]
     public int maxDistance;
     [HideInInspector]
-    public LineRenderer lr;
-    [HideInInspector]
+    public LineRenderer pg_LineRender;
 
+    [HideInInspector]
     public AudioSource pg_Fire;
     [HideInInspector]
     public AudioSource pg_Swing;
@@ -174,12 +177,12 @@ public class VRControllerEvents : MonoBehaviour
     public void Flying()
     {
         transform.position = Vector3.Lerp(transform.position, position, speed * Time.deltaTime / Vector3.Distance(transform.position, position));
-        lr.SetPosition(0, referencePoint.position);
+        pg_LineRender.SetPosition(0, pg_ReferencePoint.position);
 
         if (Vector3.Distance(transform.position, position) < 0.5f)
         {
             isFlying = false;
-            lr.enabled = false;
+            pg_LineRender.enabled = false;
         }
     }
 
@@ -200,8 +203,8 @@ public class VRControllerEvents : MonoBehaviour
         }
         else
         {
-            heldObject.transform.position = holdPosition.position;
-            heldObject.transform.rotation = holdPosition.rotation;
+            heldObject.transform.position = gp_ReferencePoint.position;
+            heldObject.transform.rotation = gp_ReferencePoint.rotation;
             
             gp_DropLaunch = true;
 
@@ -218,23 +221,25 @@ public class VRControllerEvents : MonoBehaviour
             onTriggerPress.Invoke();
             if (usePlasmaticGrappler)
             {
-                lr = gameObject.AddComponent(typeof(LineRenderer)) as LineRenderer;
-                if (Physics.Raycast(transform.position, transform.forward, out hit, maxDistance, cullingmask))
+                pg_LineRender = gameObject.AddComponent(typeof(LineRenderer)) as LineRenderer;
+                if (Physics.Raycast(transform.position, transform.forward, out hit, maxDistance, pg_LayerMask))
                 {
                     isFlying = true;
                     position = hit.point;
-                    lr.enabled = true;
-                    lr.SetPosition(1, position);
+                    pg_LineRender.enabled = true;
+                    pg_LineRender.SetPosition(1, position);
                 }
             }
             if (useGravitationalPulsar)
             {
                 if (gp_Pick)
                 {
-                    if (Physics.Raycast(transform.position, transform.forward, out hit, grabDistance, layerMask))
+                    if (Physics.Raycast(transform.position, transform.forward, out hit, grabDistance, gp_LayerMask))
                     {
                         if (hit.collider.gameObject.tag == "Throwable")
                         {
+                            //_Animator.Play("Grab");
+
                             heldObject = hit.collider.gameObject;
                             // Add Force to object
                             //Maybe use
@@ -253,13 +258,19 @@ public class VRControllerEvents : MonoBehaviour
                             heldObject.GetComponent<Rigidbody>().isKinematic = true;
                             heldObject.GetComponent<Collider>().enabled = true;
                             Debug.DrawRay(transform.position, transform.forward, Color.red);
+                            //_Animator.Play("Carry");
                             gp_Pick = false;
                             //}
+                        }
+                        else
+                        {
+                            //_Animator.Play("Error");
                         }
                     }
                 }
                 if (gp_DropLaunch)
                 {
+                    //_Animator.Play("Fire");
                     Rigidbody body = heldObject.GetComponent<Rigidbody>();
                     body.isKinematic = false;
                     body.AddForce(throwForce * transform.forward, throwForceMode);
@@ -283,7 +294,7 @@ public class VRControllerEvents : MonoBehaviour
             if (usePlasmaticGrappler && isFlying)
             {
                 isFlying = false;
-                lr.enabled = false;
+                pg_LineRender.enabled = false;
             }
         }
         // APPLICATION BUTTON
@@ -304,6 +315,7 @@ public class VRControllerEvents : MonoBehaviour
                 onApplicationMenu.Invoke();
                 if (gp_DropLaunch)
                 {
+                    //_Animator.Play("Drop");
                     Rigidbody body = heldObject.GetComponent<Rigidbody>();
                     body.isKinematic = false;
                     heldObject = null;
