@@ -10,17 +10,17 @@ public class TouchpadAxisEvent : UnityEvent<Vector2> { }
 public class TriggerAxisEvent : UnityEvent<float> { }
 
 [RequireComponent(typeof(SteamVR_TrackedObject))]
-[RequireComponent(typeof(LineRenderer))]
-[RequireComponent(typeof(AudioSource))]
-[RequireComponent(typeof(Animator))]
+//[RequireComponent(typeof(LineRenderer))]
+//[RequireComponent(typeof(AudioSource))]
+//[RequireComponent(typeof(Animator))]
 
 public class VRControllerEvents : MonoBehaviour
 {        
     // Editor Variables
     [HideInInspector]
     public bool usePlasmaticGrappler = false;
-    [HideInInspector]
-    public bool useGravitationalPulsar = false;
+   // [HideInInspector]
+   // public bool useGravitationalPulsar = false;
     [HideInInspector]
     public bool useMovementControls = false;
     [HideInInspector]
@@ -36,7 +36,7 @@ public class VRControllerEvents : MonoBehaviour
     [HideInInspector]
     public Transform rig;
     private float accelmultipler = 5;
-    private float deceleration = 4;
+  //  private float deceleration = 4;
     [HideInInspector]
     public AudioSource walking;
     [HideInInspector]
@@ -49,80 +49,79 @@ public class VRControllerEvents : MonoBehaviour
     public Grounding groundCheck;
 
 
-    // Gravitiational Pulsar Variables
-    private bool gp_Pick = false;
-    private bool gp_DropLaunch = false;
-    [HideInInspector]
-    public GameObject rigArea;
-    [HideInInspector]
-    public float grabDistance = 10.0f;
-    [HideInInspector]
-    public Transform gp_ReferencePoint;   
-    private float throwForce = 10.0f;
-    [HideInInspector]
-    public ForceMode throwForceMode;
-    [HideInInspector]
-    public float maxYDim;
-    [HideInInspector]
-    public float speedMultiplier;
-    [HideInInspector]
-    public AnimationCurve forceOverDist;
-    private GameObject heldObject = null;
-    [HideInInspector]
-    public LayerMask gp_LayerMask;
+    //// Gravitiational Pulsar Variables
+    //private bool gp_Pick = false;
+    //private bool gp_DropLaunch = false;
+    //[HideInInspector]
+    //public GameObject rigArea;
+    //[HideInInspector]
+    //public float grabDistance = 10.0f;
+    //[HideInInspector]
+    //public Transform gp_ReferencePoint;   
+    //private float throwForce = 10.0f;
+    //[HideInInspector]
+    //public ForceMode throwForceMode;
+    //[HideInInspector]
+    //public float maxYDim;
+    //[HideInInspector]
+    //public float speedMultiplier;
+    //[HideInInspector]
+    //public AnimationCurve forceOverDist;
+    //private GameObject heldObject = null;
+    //[HideInInspector]
+    //public LayerMask gp_LayerMask = -1;
 
-    [HideInInspector]
-    public Animator _Animator;
-    [HideInInspector]
-    public AudioSource gp_Grab;
-    [HideInInspector]
-    public AudioSource gp_Drop;
-    [HideInInspector]
-    public AudioSource gp_Carry;
-    [HideInInspector]
-    public AudioSource gp_Fire;
+    //[HideInInspector]
+    //public Animator _Animator;
+    //[HideInInspector]
+    //public AudioSource gp_Grab;
+    //[HideInInspector]
+    //public AudioSource gp_Drop;
+    //[HideInInspector]
+    //public AudioSource gp_Carry;
+    //[HideInInspector]
+    //public AudioSource gp_Fire;
 
-    // Plasmatic Grappler Variables //
-    [HideInInspector]
-    public LayerMask pg_LayerMask;
-    [HideInInspector]
-    public bool isFlying;
-    [HideInInspector]
-    public Vector3 position; //Use the rig?
-    [HideInInspector]
-    public float speed = 10;
-    [HideInInspector]
-    public Transform pg_ReferencePoint;
-    [HideInInspector]
-    public int maxDistance;
-    [HideInInspector]
-    public LineRenderer pg_LineRender;
+    //// Plasmatic Grappler Variables //
+    //[HideInInspector]
+    //public LayerMask pg_LayerMask;
+    //[HideInInspector]
+    //public bool isFlying;
+    //[HideInInspector]
+    //public Vector3 position; //Use the rig?
+    //[HideInInspector]
+    //public float speed = 10;
+    //[HideInInspector]
+    //public Transform pg_ReferencePoint;
+    //[HideInInspector]
+    //public int maxDistance;
+    //[HideInInspector]
+    //public LineRenderer pg_LineRender;
 
-    [HideInInspector]
-    public AudioSource pg_Fire;
-    [HideInInspector]
-    public AudioSource pg_Swing;
-    [HideInInspector]
-    public AudioSource pg_Release;
+    //[HideInInspector]
+    //public AudioSource pg_Fire;
+    //[HideInInspector]
+    //public AudioSource pg_Swing;
+    //[HideInInspector]
+    //public AudioSource pg_Release;
 
   
 
     // Vive Control Variables //
     // Trigger
     // press 
-    [HideInInspector]
+ 
     public UnityEvent onTriggerPress;
     [HideInInspector]
     // down (float axis) 
     public TriggerAxisEvent onTrigger;
-    [HideInInspector]
     // up
     public UnityEvent onTriggerRelease;
     [HideInInspector]
     // Application button
     // press
     public UnityEvent onApplicationMenuPress;
-    [HideInInspector]
+
     // down
     public UnityEvent onApplicationMenu;
     [HideInInspector]
@@ -175,123 +174,23 @@ public class VRControllerEvents : MonoBehaviour
    
     }
 
-    IEnumerator _GrabbedObject()
-    {
-        float curveTime = 0f;
-        float curveAmount = forceOverDist.Evaluate(curveTime);
-        while (curveAmount < 1.0f)
-        {
-            curveTime += Time.deltaTime * speedMultiplier;
-            curveAmount = forceOverDist.Evaluate(curveTime);
-            yield return null;
-        }
-    }
-    public void Flying()
-    {
-        transform.position = Vector3.Lerp(transform.position, position, speed * Time.deltaTime / Vector3.Distance(transform.position, position));
-        pg_LineRender.SetPosition(0, pg_ReferencePoint.position);
-
-        if (Vector3.Distance(transform.position, position) < 0.5f)
-        {
-            isFlying = false;
-            pg_LineRender.enabled = false;
-        }
-    }
-
     void Update()
     {
-        RaycastHit hit;
+       // RaycastHit hit;
+
         if (controller == null)
         {
             Debug.Log("Controller not initialized");
             return;
         }
         var device = SteamVR_Controller.Input((int)trackedObj.index);
-        //// 1st Iteration of Gravity gun //
-        if (heldObject == null)
-        {
-            gp_Pick = true;
-            gp_DropLaunch = false;
-        }
-        else
-        {
-            heldObject.transform.position = gp_ReferencePoint.position;
-            heldObject.transform.rotation = gp_ReferencePoint.rotation;
-            
-            gp_DropLaunch = true;
-
-        }
-
-        if (isFlying)
-        {
-            Flying();
-        }
         // TRIGGER
         // down
         if (controller.GetPressDown(triggerButton))
         {
             onTriggerPress.Invoke();
-            if (usePlasmaticGrappler)
-            {
-                pg_LineRender = gameObject.AddComponent(typeof(LineRenderer)) as LineRenderer;
-                if (Physics.Raycast(transform.position, transform.forward, out hit, maxDistance, pg_LayerMask))
-                {
-                    isFlying = true;
-                    position = hit.point;
-                    pg_LineRender.enabled = true;
-                    pg_LineRender.SetPosition(1, position);
-                }
-            }
-            if (useGravitationalPulsar)
-            {
-                if (gp_Pick)
-                {
-                    if (Physics.Raycast(transform.position, transform.forward, out hit, grabDistance, gp_LayerMask))
-                    {
-                        if (hit.collider.gameObject.tag == "Throwable")
-                        {
-                            //_Animator.Play("Grab");
-
-                            heldObject = hit.collider.gameObject;
-                            // Add Force to object
-                            //Maybe use
-                            // StartCoroutine(_GrabbedObject()); //?
-                            //heldObject.GetComponent<Rigidbody>().MovePosition()
-                            // If statement if positioning of the object hits a trigger then apply some force below it
-                            // if (triggerOne)
-                            //{
-                            // Addforce on Y position
-                            // Addforce increases faster the closer it gets
-                            // }
-                            //If (triggerTwo)
-                            //{
-                            //If state of positioning of object passes second trigger it will do the following below.
-
-                            heldObject.GetComponent<Rigidbody>().isKinematic = true;
-                            heldObject.GetComponent<Collider>().enabled = true;
-                            Debug.DrawRay(transform.position, transform.forward, Color.red);
-                            //_Animator.Play("Carry");
-                            gp_Pick = false;
-                            //}
-                        }
-                        else
-                        {
-                            //_Animator.Play("Error");
-                        }
-                    }
-                }
-                if (gp_DropLaunch)
-                {
-                    //_Animator.Play("Fire");
-                    Rigidbody body = heldObject.GetComponent<Rigidbody>();
-                    body.isKinematic = false;
-                    body.AddForce(throwForce * transform.forward, throwForceMode);
-                    heldObject = null;
-                    Debug.DrawRay(transform.position, transform.forward, Color.red);
-                    gp_DropLaunch = false;
-                }
-            }
         }
+
         // press
         if (controller.GetPress(triggerButton))
         {
@@ -303,11 +202,11 @@ public class VRControllerEvents : MonoBehaviour
         if (controller.GetPressUp(triggerButton))
         {
             onTriggerRelease.Invoke();
-            if (usePlasmaticGrappler && isFlying)
-            {
-                isFlying = false;
-                pg_LineRender.enabled = false;
-            }
+            //if (usePlasmaticGrappler && isFlying)
+            //{
+            //    isFlying = false;
+            //    pg_LineRender.enabled = false;
+            //}
         }
         // APPLICATION BUTTON
         // down
@@ -318,23 +217,7 @@ public class VRControllerEvents : MonoBehaviour
         // press
         if (controller.GetPress(applicationMenu))
         {
-            if (usePlasmaticGrappler)
-            {
-
-            }
-            if (useGravitationalPulsar)
-            {
                 onApplicationMenu.Invoke();
-                if (gp_DropLaunch)
-                {
-                    //_Animator.Play("Drop");
-                    Rigidbody body = heldObject.GetComponent<Rigidbody>();
-                    body.isKinematic = false;
-                    heldObject = null;
-                    Debug.DrawRay(transform.position, transform.forward, Color.red);
-                    gp_DropLaunch = false;
-                }
-            }
         }
         // up
         if (controller.GetPressUp(applicationMenu))
@@ -351,13 +234,6 @@ public class VRControllerEvents : MonoBehaviour
             {
                 rig.GetComponent<Rigidbody>().AddForce(new Vector3(0, 1000, 0));
             }                 
-        }
-        if (Input.GetKeyDown(KeyCode.Space))
-        {
-            if (groundCheck.isGrounding)
-            {
-                rig.GetComponent<Rigidbody>().AddForce(new Vector3(0, 1000, 0));
-            }
         }
         // press
         if (controller.GetPress(gripButton))
@@ -396,7 +272,7 @@ public class VRControllerEvents : MonoBehaviour
         {
             axis = device.GetAxis(Valve.VR.EVRButtonId.k_EButton_Axis0);
             onTouch.Invoke(axis);
-            Debug.Log(axis);
+           // Debug.Log(axis);
             if (useMovementControls)
             {
                 rig.position += new Vector3(axis.x, 0, axis.y) * accelmultipler * Time.deltaTime;

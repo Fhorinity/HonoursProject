@@ -9,7 +9,7 @@ public class Grappler : MonoBehaviour
     public float weight;
 
     private GameObject player;
-    private Rigidbody rigidbody;
+   // private Rigidbody rigidbody;
     private SpringJoint ropeEffect;
 
     private float distanceToPlayer;
@@ -23,7 +23,7 @@ public class Grappler : MonoBehaviour
     void Start()
     {
         player = GameObject.FindGameObjectWithTag("Player");
-        rigidbody = GetComponent<Rigidbody>();
+      //  rigidbody = GetComponent<Rigidbody>();
         ropeEffect = player.GetComponent<SpringJoint>();
 
         throwRope = true;
@@ -66,7 +66,7 @@ public class Grappler : MonoBehaviour
             }
             else
             {
-                ropeEffect.connectedBody = rigidbody;
+                //ropeEffect.connectedBody = rigidbody;
                 ropeEffect.spring = ropeStrength;
                 ropeEffect.damper = weight;
             }
