@@ -23,6 +23,14 @@ public class VRControllerEvents : MonoBehaviour
     public bool useGravitationalPulsar = false;
     [HideInInspector]
     public bool useMovementControls = false;
+    [HideInInspector]
+    public bool useLeftMenuControls = false;
+    [HideInInspector]
+    public bool useRightMenuControls = false;
+
+    // Menu Varables
+    [HideInInspector]
+    public bool _OpenMenu = false;
 
     // Movement Variables
     [HideInInspector]
@@ -37,8 +45,9 @@ public class VRControllerEvents : MonoBehaviour
     public AudioSource jumping;
     //   [HideInInspector]
     //  public Transform headset;
-    // [HideInInspector]
-    // public bool isGrounded = true;
+    [HideInInspector]
+    public Grounding groundCheck;
+
 
     // Gravitiational Pulsar Variables
     private bool gp_Pick = false;
@@ -75,7 +84,7 @@ public class VRControllerEvents : MonoBehaviour
 
     // Plasmatic Grappler Variables //
     [HideInInspector]
-    public LayerMask pg_LayerMask = 9;
+    public LayerMask pg_LayerMask;
     [HideInInspector]
     public bool isFlying;
     [HideInInspector]
@@ -95,6 +104,8 @@ public class VRControllerEvents : MonoBehaviour
     public AudioSource pg_Swing;
     [HideInInspector]
     public AudioSource pg_Release;
+
+  
 
     // Vive Control Variables //
     // Trigger
@@ -161,6 +172,7 @@ public class VRControllerEvents : MonoBehaviour
     void Start()
     {
         trackedObj = GetComponent<SteamVR_TrackedObject>();
+   
     }
 
     IEnumerator _GrabbedObject()
@@ -335,10 +347,17 @@ public class VRControllerEvents : MonoBehaviour
         {
             onGripPress.Invoke();
 
-         //   if (isGrounded)
-       //     {
+            if (groundCheck.isGrounding)
+            {
                 rig.GetComponent<Rigidbody>().AddForce(new Vector3(0, 1000, 0));
-        //    }                 
+            }                 
+        }
+        if (Input.GetKeyDown(KeyCode.Space))
+        {
+            if (groundCheck.isGrounding)
+            {
+                rig.GetComponent<Rigidbody>().AddForce(new Vector3(0, 1000, 0));
+            }
         }
         // press
         if (controller.GetPress(gripButton))

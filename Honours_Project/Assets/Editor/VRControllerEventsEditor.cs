@@ -12,12 +12,14 @@ public class VRControllerEventsEditor : Editor
         if (vrce.useMovementControls)
         {
             EditorGUILayout.Space();
-            vrce.rig = EditorGUILayout.ObjectField("Rig Area: ", vrce.rig, typeof(Transform), true) as Transform;
+            vrce.rig = EditorGUILayout.ObjectField("Rig: ", vrce.rig, typeof(Transform), true) as Transform;
           //  vrce.headset = EditorGUILayout.ObjectField("Headset: ", vrce.headset, typeof(Transform), true) as Transform;
             EditorGUILayout.Space();
             vrce.walking = EditorGUILayout.ObjectField("Walking Sound Effect: ", vrce.walking, typeof(AudioSource), true) as AudioSource;
             vrce.running = EditorGUILayout.ObjectField("Running Sound Effect: ", vrce.running, typeof(AudioSource), true) as AudioSource;
             vrce.jumping = EditorGUILayout.ObjectField("Jumping Sound Effect: ", vrce.jumping, typeof(AudioSource), true) as AudioSource;
+            EditorGUILayout.Space();
+            vrce.groundCheck = EditorGUILayout.ObjectField("Ground Check: ", vrce.groundCheck, typeof(Grounding), true) as Grounding;
             EditorGUILayout.Space();
         }
         vrce.useGravitationalPulsar = EditorGUILayout.Toggle("Use Gravitational Pulsar: ", vrce.useGravitationalPulsar);

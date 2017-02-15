@@ -3,26 +3,18 @@ using System.Collections.Generic;
 using UnityEngine;
 
 public class Grounding : MonoBehaviour
-{
-    
-    private VRControllerEvents ground;
-
-
-    //void OnCollisionEnter(Collider collider)
-    //{
-    //    if (collider.gameObject.tag == "Floor")
-    //    {
-    //        print("Collision with floor");
-    //        ground.isGrounded = true;
-    //    }
-    //}
-
-    //void OnCollisionExit(Collider collider)
-    //{
-    //    if (collider.tag == "Floor")
-    //    {
-    //        ground.isGrounded = false;
-    //    }
-        
-   // }
+{ 
+    public Collider coll;
+    public bool isGrounding;
+   public bool Grounded()
+    {
+        return Physics.Raycast(coll.bounds.center, Vector3.down, coll.bounds.extents.y + 0.1f);
+    }
+    void Update()
+    {
+        if (Grounded())
+            isGrounding = true;
+        else
+            isGrounding = false;
+    }
 }

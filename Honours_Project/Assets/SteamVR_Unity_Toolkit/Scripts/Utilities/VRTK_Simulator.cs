@@ -4,7 +4,7 @@ namespace VRTK
     using UnityEngine;
 
     /// <summary>
-    /// To test a scene it is often necessary to use the headset to move to a location. This increases turn-around times and can become cumbersome.
+    /// To isGrounding a scene it is often necessary to use the headset to move to a location. This increases turn-around times and can become cumbersome.
     /// </summary>
     /// <remarks>
     /// The simulator allows navigating through the scene using the keyboard instead, without the need to put on the headset. One can then move around (also through walls) while looking at the monitor and still use the controllers to interact.

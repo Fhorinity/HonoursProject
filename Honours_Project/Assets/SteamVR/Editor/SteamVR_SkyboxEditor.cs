@@ -25,7 +25,7 @@ public class SteamVR_SkyboxEditor : Editor
 		"For stereo screenshots, a panorama is render for each eye using the specified " +
 		"ipd (in millimeters) broken up into segments cellSize pixels square to optimize " +
 		"generation.\n(32x32 takes about 10 seconds depending on scene complexity, 16x16 " +
-		"takes around a minute, while will 8x8 take several minutes.)\n\nTo test, hit " +
+		"takes around a minute, while will 8x8 take several minutes.)\n\nTo isGrounding, hit " +
 		"play then pause - this will activate the skybox settings, and then drop you to " +
 		"the compositor where the skybox is rendered.";
 
