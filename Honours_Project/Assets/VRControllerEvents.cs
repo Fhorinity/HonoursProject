@@ -1,6 +1,5 @@
 ﻿using UnityEngine;
 using UnityEngine.Events;
-using System.Collections;
 
 
 [System.Serializable]
@@ -32,6 +31,9 @@ public class VRControllerEvents : MonoBehaviour
     [HideInInspector]
     public bool _OpenMenu = false;
 
+    public Transform grappleHookOrigin;
+    public bool grappleHook = false;
+
     // Movement Variables
     [HideInInspector]
     public Transform rig;
@@ -49,62 +51,7 @@ public class VRControllerEvents : MonoBehaviour
     public Grounding groundCheck;
 
 
-    //// Gravitiational Pulsar Variables
-    //private bool gp_Pick = false;
-    //private bool gp_DropLaunch = false;
-    //[HideInInspector]
-    //public GameObject rigArea;
-    //[HideInInspector]
-    //public float grabDistance = 10.0f;
-    //[HideInInspector]
-    //public Transform gp_ReferencePoint;   
-    //private float throwForce = 10.0f;
-    //[HideInInspector]
-    //public ForceMode throwForceMode;
-    //[HideInInspector]
-    //public float maxYDim;
-    //[HideInInspector]
-    //public float speedMultiplier;
-    //[HideInInspector]
-    //public AnimationCurve forceOverDist;
-    //private GameObject heldObject = null;
-    //[HideInInspector]
-    //public LayerMask gp_LayerMask = -1;
-
-    //[HideInInspector]
-    //public Animator _Animator;
-    //[HideInInspector]
-    //public AudioSource gp_Grab;
-    //[HideInInspector]
-    //public AudioSource gp_Drop;
-    //[HideInInspector]
-    //public AudioSource gp_Carry;
-    //[HideInInspector]
-    //public AudioSource gp_Fire;
-
-    //// Plasmatic Grappler Variables //
-    //[HideInInspector]
-    //public LayerMask pg_LayerMask;
-    //[HideInInspector]
-    //public bool isFlying;
-    //[HideInInspector]
-    //public Vector3 position; //Use the rig?
-    //[HideInInspector]
-    //public float speed = 10;
-    //[HideInInspector]
-    //public Transform pg_ReferencePoint;
-    //[HideInInspector]
-    //public int maxDistance;
-    //[HideInInspector]
-    //public LineRenderer pg_LineRender;
-
-    //[HideInInspector]
-    //public AudioSource pg_Fire;
-    //[HideInInspector]
-    //public AudioSource pg_Swing;
-    //[HideInInspector]
-    //public AudioSource pg_Release;
-
+    
   
 
     // Vive Control Variables //
@@ -217,6 +164,7 @@ public class VRControllerEvents : MonoBehaviour
         // press
         if (controller.GetPress(applicationMenu))
         {
+            grappleHook = true;
                 onApplicationMenu.Invoke();
         }
         // up
