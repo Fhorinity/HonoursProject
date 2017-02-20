@@ -14,7 +14,7 @@ public class VRControllerEventsEditor : Editor
         if (vrce.useMovementControls)
         {
             EditorGUILayout.Space();
-            vrce.rig = EditorGUILayout.ObjectField("Rig: ", vrce.rig, typeof(Transform), true) as Transform;
+           // vrce.rig = EditorGUILayout.ObjectField("Rig: ", vrce.rig, typeof(Transform), true) as Transform;
           //  vrce.headset = EditorGUILayout.ObjectField("Headset: ", vrce.headset, typeof(Transform), true) as Transform;
             EditorGUILayout.Space();
             vrce.walking = EditorGUILayout.ObjectField("Walking Sound Effect: ", vrce.walking, typeof(AudioSource), true) as AudioSource;

@@ -1,4 +1,4 @@
 sceneSetups:
-- path: C:/Users/mbrooks7/Downloads/Jet-Warrior-master/Jet-Warrior-master/Assets/Jetpacking/Scenes/GrappleTest.unity
+- path: Assets/Main Scene.unity
   isLoaded: 1
   isActive: 1

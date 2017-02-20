@@ -22,37 +22,38 @@ public class VRControllerEvents : MonoBehaviour
    // public bool useGravitationalPulsar = false;
     [HideInInspector]
     public bool useMovementControls = false;
+    //[HideInInspector]
+    //public bool useLeftMenuControls = false;
+    //[HideInInspector]
+    //public bool useRightMenuControls = false;
     [HideInInspector]
-    public bool useLeftMenuControls = false;
+    public bool useGrappleRightControls = false;
     [HideInInspector]
-    public bool useRightMenuControls = false;
-
+    public bool rightController = false;
+    [HideInInspector]
+    public bool leftController = false;
     // Menu Varables
     [HideInInspector]
     public bool _OpenMenu = false;
-
-    public Transform grappleHookOrigin;
-    public bool grappleHook = false;
-
-    // Movement Variables
     [HideInInspector]
-    public Transform rig;
+    public Transform grappleHookOrigin;
+    [HideInInspector]
+    public bool grappleHook = false;
+    [HideInInspector]
+    private bool menuOpen = false;
+    // Movement Variables
+    [SerializeField]
+    private Transform rig;
+    public Transform headset; 
     private float accelmultipler = 5;
-  //  private float deceleration = 4;
     [HideInInspector]
     public AudioSource walking;
     [HideInInspector]
     public AudioSource running;
     [HideInInspector]
     public AudioSource jumping;
-    //   [HideInInspector]
-    //  public Transform headset;
     [HideInInspector]
     public Grounding groundCheck;
-
-
-    
-  
 
     // Vive Control Variables //
     // Trigger
@@ -123,8 +124,6 @@ public class VRControllerEvents : MonoBehaviour
 
     void Update()
     {
-       // RaycastHit hit;
-
         if (controller == null)
         {
             Debug.Log("Controller not initialized");
@@ -144,22 +143,27 @@ public class VRControllerEvents : MonoBehaviour
             //float delta = controller.hairTriggerDelta;
             float delta = controller.GetAxis(triggerButton).x;
             onTrigger.Invoke(delta);
+            grappleHook = true;
         }
         // up
         if (controller.GetPressUp(triggerButton))
         {
             onTriggerRelease.Invoke();
-            //if (usePlasmaticGrappler && isFlying)
-            //{
-            //    isFlying = false;
-            //    pg_LineRender.enabled = false;
-            //}
+            grappleHook = false;
         }
         // APPLICATION BUTTON
         // down
         if (controller.GetPressDown(applicationMenu))
         {
             onApplicationMenuPress.Invoke();
+            if (rightController)
+            {
+                menuOpen = true;
+            }
+            if (leftController)
+            {
+               
+            }
         }
         // press
         if (controller.GetPress(applicationMenu))
@@ -168,10 +172,6 @@ public class VRControllerEvents : MonoBehaviour
                 onApplicationMenu.Invoke();
         }
         // up
-        if (controller.GetPressUp(applicationMenu))
-        {
-            onApplicationMenuRelease.Invoke();
-        }
         // GRIP BUTTON
         // down
         if (controller.GetPressDown(gripButton))
@@ -184,62 +184,44 @@ public class VRControllerEvents : MonoBehaviour
             }                 
         }
         // press
-        if (controller.GetPress(gripButton))
-        {
-            onGrip.Invoke();
-        }
-        // up
-        if (controller.GetPressUp(gripButton))
-        {
-            onGripRelease.Invoke();
-        }
-        // TOUCHPAD
-        // down
-        if (controller.GetPressDown(touchpad)) // touch
-        {
-            axis = device.GetAxis(Valve.VR.EVRButtonId.k_EButton_Axis0);
-            onTouchpadPress.Invoke(axis);
-        }
-        else if (controller.GetTouchDown(touchpad)) // touchpad
-        {
-            axis = device.GetAxis(Valve.VR.EVRButtonId.k_EButton_Axis0);
-            onTouchPress.Invoke(axis);
-        }
-        // press
         if (controller.GetPress(touchpad)) // touch
         {
             axis = device.GetAxis(Valve.VR.EVRButtonId.k_EButton_Axis0);
             onTouchpad.Invoke(axis);
-            if (useMovementControls)
+            if (!menuOpen)
             {
-                rig.position += new Vector3(axis.x, 0, axis.y) * accelmultipler * Time.deltaTime;
-               // rig.rotation = headset.rotation;
+                if (useMovementControls)
+                {
+
+                    rig.position += (headset.transform.right * axis.x + headset.transform.forward * axis.y) * accelmultipler * Time.deltaTime;
+                }
+                if (useGrappleRightControls)
+                {
+
+                }
             }
+            if (menuOpen)
+            {
+                if (leftController)
+                {
+
+                }
+                if (rightController)
+                {
+
+                }
+            }
+           
         }
         else if (controller.GetTouch(touchpad)) // touchpad
         {
             axis = device.GetAxis(Valve.VR.EVRButtonId.k_EButton_Axis0);
             onTouch.Invoke(axis);
-           // Debug.Log(axis);
             if (useMovementControls)
             {
-                rig.position += new Vector3(axis.x, 0, axis.y) * accelmultipler * Time.deltaTime;
-             //   rig.rotation = headset.rotation; 
+                if (!menuOpen)
+                rig.position += (headset.transform.right * axis.x + headset.transform.forward * axis.y) * accelmultipler * Time.deltaTime;
             }  
-        }
-        // up
-        if (controller.GetPressUp(touchpad)) // touch
-        {
-            axis = device.GetAxis(Valve.VR.EVRButtonId.k_EButton_Axis0);
-            onTouchpadRelease.Invoke(axis);
-            //rig.position -= new Vector3(axis.x, 0, axis.y) * deceleration * Time.deltaTime;
-
-        }
-        else if (controller.GetTouchUp(touchpad)) // touchpad
-        {
-            axis = device.GetAxis(Valve.VR.EVRButtonId.k_EButton_Axis0);
-            onTouchRelease.Invoke(axis);
-            // rig.position -= new Vector3(axis.x, 0, axis.y) * deceleration * Time.deltaTime;
         }
     }   
 }

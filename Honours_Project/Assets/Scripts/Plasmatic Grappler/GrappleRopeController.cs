@@ -8,15 +8,15 @@ public class GrappleRopeController : MonoBehaviour
 
 	void Start ()
     {
-        r_LineRenderer.numPositions = r_Points.Length;
+        this.r_LineRenderer.numPositions = this.r_Points.Length;
 	}
 	
 	// Update is called once per frame
 	void Update ()
     {
-	    for (int i = 0; i < r_Points.Length; i++)
+	    for (int i = 0; i < this.r_Points.Length; i++)
         {
-            r_LineRenderer.SetPosition(i, r_Points[i].position);
+            this.r_LineRenderer.SetPosition(i, this.r_Points[i].position);
         }	
 	}
 }

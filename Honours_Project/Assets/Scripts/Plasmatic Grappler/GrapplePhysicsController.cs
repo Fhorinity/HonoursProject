@@ -9,9 +9,11 @@ public class GrapplePhysicsController : MonoBehaviour
 
     void GrappleHookImpact()
     {
-        foreach(var joint in joints)
+        Joint[] array = this.joints;
+        for (int i = 0; i< array.Length; i++)
         {
-            joint.connectedBody = rootRigidbody;
+            Joint joint = array[i];
+            joint.connectedBody = this.rootRigidbody;
         }
     }
 }
