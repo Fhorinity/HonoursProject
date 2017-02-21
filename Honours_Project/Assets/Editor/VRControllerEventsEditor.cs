@@ -1,33 +1,54 @@
 ﻿using UnityEngine;
 using UnityEditor;
+using UnityEngine.Events;
 
 [CustomEditor(typeof(VRControllerEvents)), CanEditMultipleObjects]
 public class VRControllerEventsEditor : Editor
 {
     public override void OnInspectorGUI()
     {
+        
         DrawDefaultInspector();
         VRControllerEvents vrce = (VRControllerEvents)target;
+        vrce.leftController = EditorGUILayout.Toggle("Left Controller ", vrce.leftController);
+
+       // vrce.onTriggerPress = EditorGUILayout.
+        if (vrce.leftController)
+        {
+            EditorGUILayout.Space();
+            vrce.gameLeft = EditorGUILayout.ObjectField("Game Controls: ", vrce.gameLeft, typeof(GameObject), true) as GameObject;
+            vrce.menuLeft = EditorGUILayout.ObjectField("Menu Controls: ", vrce.menuLeft, typeof(GameObject), true) as GameObject;
+            EditorGUILayout.Space();
+        }
+        vrce.rightController = EditorGUILayout.Toggle("Right Controller ", vrce.rightController);
+        if (vrce.rightController)
+        {
+            EditorGUILayout.Space();
+          //  vrce.onTriggerPress = EditorGUILayout.RectField("On Trigger Press", vrce.onTriggerPress);
+            EditorGUILayout.Space();
+            vrce.gameRight = EditorGUILayout.ObjectField("Game Controls: ", vrce.gameRight, typeof(GameObject), true) as GameObject;
+            vrce.menuRight = EditorGUILayout.ObjectField("Menu Controls: ", vrce.menuRight, typeof(GameObject), true) as GameObject;
+            EditorGUILayout.Space();
+        }
         vrce.groundCheck = EditorGUILayout.ObjectField("Ground Check: ", vrce.groundCheck, typeof(Grounding), true) as Grounding;
         EditorGUILayout.Space();
+        vrce.rig = EditorGUILayout.ObjectField("Rig: ", vrce.rig, typeof(Transform), true) as Transform;
+        EditorGUILayout.Space();
         vrce.useMovementControls = EditorGUILayout.Toggle("Use Movement Controls: ", vrce.useMovementControls);
+        
         if (vrce.useMovementControls)
         {
             EditorGUILayout.Space();
-           // vrce.rig = EditorGUILayout.ObjectField("Rig: ", vrce.rig, typeof(Transform), true) as Transform;
-          //  vrce.headset = EditorGUILayout.ObjectField("Headset: ", vrce.headset, typeof(Transform), true) as Transform;
+            vrce.headset = EditorGUILayout.ObjectField("Headset: ", vrce.headset, typeof(Transform), true) as Transform;
             EditorGUILayout.Space();
             vrce.walking = EditorGUILayout.ObjectField("Walking Sound Effect: ", vrce.walking, typeof(AudioSource), true) as AudioSource;
             vrce.running = EditorGUILayout.ObjectField("Running Sound Effect: ", vrce.running, typeof(AudioSource), true) as AudioSource;
             vrce.jumping = EditorGUILayout.ObjectField("Jumping Sound Effect: ", vrce.jumping, typeof(AudioSource), true) as AudioSource;
             EditorGUILayout.Space();
-            
+
         }
-        //vrce.useGravitationalPulsar = EditorGUILayout.Toggle("Use Gravitational Pulsar: ", vrce.useGravitationalPulsar);
-        //if (vrce.useGravitationalPulsar)
-        //{
-        //    EditorGUILayout.Space();
-        //    vrce.rigArea = EditorGUILayout.ObjectField("Rig Area: ", vrce.rigArea, typeof(GameObject), true) as GameObject;
+        
+
         //    vrce.gp_ReferencePoint = EditorGUILayout.ObjectField("Reference Point: ", vrce.gp_ReferencePoint, typeof(Transform), true) as Transform;
         //    EditorGUILayout.Space();
         //    vrce.speedMultiplier = EditorGUILayout.FloatField("Speed Multiplier: ", vrce.speedMultiplier);
@@ -66,5 +87,6 @@ public class VRControllerEventsEditor : Editor
         //  //  vrce._Animator = EditorGUILayout.ObjectField("Animator: ", vrce._Animator, typeof(Animator), true) as Animator;
         ////    EditorGUILayout.Space();
         //}      
+        // }
     }
 }
