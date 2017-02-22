@@ -36,7 +36,7 @@ namespace VRTK
         public float buttonThickness = 0.5f;
         [Tooltip("The background colour of the buttons, default is white.")]
         public Color buttonColor = Color.white;
-        [Tooltip("The distance the buttons should move away from the centre. This creates space between the individual buttons.")]
+        [Tooltip("The distance the buttons should vrEvents away from the centre. This creates space between the individual buttons.")]
         public float offsetDistance = 1;
         [Tooltip("The additional rotation of the Radial Menu.")]
         [Range(0, 359)]

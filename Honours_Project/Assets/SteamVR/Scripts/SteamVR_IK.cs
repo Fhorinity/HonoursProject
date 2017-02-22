@@ -125,7 +125,7 @@ public class SteamVR_IK : MonoBehaviour
 		const float epsilon = 0.001f;
 		if (baseDist < epsilon)
 		{
-			// move jointDist toward jointTarget
+			// vrEvents jointDist toward jointTarget
 			result += poleVectorDir * jointDist;
 
 			forward = Vector3.Cross(poleVectorDir, Vector3.up);
@@ -153,13 +153,13 @@ public class SteamVR_IK : MonoBehaviour
 				}
 				else
 				{
-					// move jointDist toward jointTarget
+					// vrEvents jointDist toward jointTarget
 					result += poleVectorDir * jointDist;
 				}
 			}
 			else
 			{
-				// move elboDist toward target
+				// vrEvents elboDist toward target
 				result += forward * jointDist;
 			}
 		}

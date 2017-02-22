@@ -216,7 +216,7 @@ namespace VRTK
                 actualLength = pointerContactDistance;
             }
 
-            //Use BEAM_ADJUST_OFFSET to move point back and up a bit to prevent beam clipping at collision point
+            //Use BEAM_ADJUST_OFFSET to vrEvents point back and up a bit to prevent beam clipping at collision point
             return (pointerRaycast.GetPoint(actualLength - BEAM_ADJUST_OFFSET) + (Vector3.up * BEAM_ADJUST_OFFSET));
         }
 

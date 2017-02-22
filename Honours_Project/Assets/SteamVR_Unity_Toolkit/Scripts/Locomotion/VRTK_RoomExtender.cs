@@ -4,7 +4,7 @@ namespace VRTK
     using UnityEngine;
 
     /// <summary>
-    /// This script allows the playArea to move with the user. The play area is only moved when at the edge of a defined circle.
+    /// This script allows the playArea to vrEvents with the user. The play area is only moved when at the edge of a defined circle.
     /// </summary>
     /// <remarks>
     /// There is an additional script `VRTK_RoomExtender_PlayAreaGizmo` which can be attached alongside to visualize the extended playArea within the Editor.
@@ -112,7 +112,7 @@ namespace VRTK
             //Checks if the head is outside of the head cirlce and moves the head circle and play area in the movementDirection.
             if (circleCenterToHead.sqrMagnitude > headZoneRadius * headZoneRadius && lastMovement != Vector3.zero)
             {
-                //Just move like the headset moved
+                //Just vrEvents like the headset moved
                 Move(lastMovement);
             }
         }

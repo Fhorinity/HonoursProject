@@ -20,7 +20,7 @@ namespace Valve.VR.InteractionSystem
 		[Tooltip( "The amount of time in seconds between each segment of the projectile." )]
 		public float segmentBreak = 0.025f;
 
-		[Tooltip( "The speed at which the line segments of the arc move." )]
+		[Tooltip( "The speed at which the line segments of the arc vrEvents." )]
 		public float arcSpeed = 0.2f;
 
 		public Material material;

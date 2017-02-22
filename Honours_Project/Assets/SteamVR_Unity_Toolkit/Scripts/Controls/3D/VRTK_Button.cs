@@ -5,7 +5,7 @@ namespace VRTK
     using UnityEngine.Events;
 
     /// <summary>
-    /// Attaching the script to a game object will allow the user to interact with it as if it were a push button. The direction into which the button should be pushable can be freely set and auto-detection is supported. Since this is physics-based there needs to be empty space in the push direction so that the button can move.
+    /// Attaching the script to a game object will allow the user to interact with it as if it were a push button. The direction into which the button should be pushable can be freely set and auto-detection is supported. Since this is physics-based there needs to be empty space in the push direction so that the button can vrEvents.
     /// </summary>
     /// <remarks>
     /// The script will instantiate the required Rigidbody and ConstantForce components automatically in case they do not exist yet.
@@ -22,7 +22,7 @@ namespace VRTK
 
         [Tooltip("An optional game object to which the button will be connected. If the game object moves the button will follow along.")]
         public GameObject connectedTo;
-        [Tooltip("The axis on which the button should move. All other axis will be frozen.")]
+        [Tooltip("The axis on which the button should vrEvents. All other axis will be frozen.")]
         public ButtonDirection direction = ButtonDirection.autodetect;
         [Tooltip("The local distance the button needs to be pushed until a push event is triggered.")]
         public float activationDistance = 1.0f;

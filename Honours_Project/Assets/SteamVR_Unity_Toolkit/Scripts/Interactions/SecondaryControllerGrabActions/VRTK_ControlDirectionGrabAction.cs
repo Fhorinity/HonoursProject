@@ -17,7 +17,7 @@ namespace VRTK.SecondaryControllerGrabActions
     /// </example>
     public class VRTK_ControlDirectionGrabAction : VRTK_BaseGrabAction
     {
-        [Tooltip("The distance the secondary controller must move away from the original grab position before the secondary controller auto ungrabs the object.")]
+        [Tooltip("The distance the secondary controller must vrEvents away from the original grab position before the secondary controller auto ungrabs the object.")]
         public float ungrabDistance = 1f;
         [Tooltip("The speed in which the object will snap back to it's original rotation when the secondary controller stops grabbing it. `0` for instant snap, `infinity` for no snap back.")]
         public float releaseSnapSpeed = 0.1f;

@@ -78,8 +78,6 @@ public class VRControllerEvents : MonoBehaviour
     public TouchpadAxisEvent onTouchpadPress;
     public TouchpadAxisEvent onTouchpad;
 
-
-
     private Valve.VR.EVRButtonId gripButton = Valve.VR.EVRButtonId.k_EButton_Grip;
     private Valve.VR.EVRButtonId triggerButton = Valve.VR.EVRButtonId.k_EButton_SteamVR_Trigger;
     private Valve.VR.EVRButtonId touchpad = Valve.VR.EVRButtonId.k_EButton_SteamVR_Touchpad;
@@ -88,7 +86,8 @@ public class VRControllerEvents : MonoBehaviour
     private SteamVR_Controller.Device controller { get { return SteamVR_Controller.Input((int)trackedObj.index); } }
     private SteamVR_TrackedObject trackedObj;
 
-    private Vector2 axis = Vector2.zero;
+    [HideInInspector]
+    public Vector2 axis = Vector2.zero;
 
     void Start()
     {
@@ -145,14 +144,6 @@ public class VRControllerEvents : MonoBehaviour
         {
             menuOpen = !menuOpen;
             onApplicationMenuPress.Invoke();
-            if (rightController)
-            {
-                
-            }
-            if (leftController)
-            {
-               
-            }
         }
         // press
         if (controller.GetPress(applicationMenu))
@@ -169,9 +160,7 @@ public class VRControllerEvents : MonoBehaviour
             onGripPress.Invoke();
 
             if (groundCheck.isGrounding)
-            {
-                rig.GetComponent<Rigidbody>().AddForce(new Vector3(0, 1000, 0));
-            }                 
+                rig.GetComponent<Rigidbody>().AddForce(new Vector3(0, 1000, 0));                
         }
         // press
         if (controller.GetPress(touchpad)) // touch
@@ -179,27 +168,8 @@ public class VRControllerEvents : MonoBehaviour
             axis = device.GetAxis(Valve.VR.EVRButtonId.k_EButton_Axis0);
             onTouchpad.Invoke(axis);
             if (!menuOpen)
-            {
                 if (useMovementControls)
-                {
                     rig.position += (headset.transform.right * axis.x + headset.transform.forward * axis.y) * accelmultipler * Time.deltaTime;
-                }
-                if (useGrappleRightControls)
-                {
-
-                }
-            }
-            if (menuOpen)
-            {
-                if (leftController)
-                {
-                    
-                }
-                if (rightController)
-                {
-                    
-                }
-            }
            
         }
         else if (controller.GetTouch(touchpad)) // touchpad
@@ -210,10 +180,6 @@ public class VRControllerEvents : MonoBehaviour
             {
                 if (!menuOpen)
                 rig.position += (headset.transform.right * axis.x + headset.transform.forward * axis.y) * accelmultipler * Time.deltaTime;
-                else
-                {
-                    
-                }
             }  
         }
     }   

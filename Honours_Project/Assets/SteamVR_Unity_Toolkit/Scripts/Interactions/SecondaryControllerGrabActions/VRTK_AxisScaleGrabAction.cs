@@ -11,7 +11,7 @@ namespace VRTK.SecondaryControllerGrabActions
     /// </example>
     public class VRTK_AxisScaleGrabAction : VRTK_BaseGrabAction
     {
-        [Tooltip("The distance the secondary controller must move away from the original grab position before the secondary controller auto ungrabs the object.")]
+        [Tooltip("The distance the secondary controller must vrEvents away from the original grab position before the secondary controller auto ungrabs the object.")]
         public float ungrabDistance = 1f;
         [Tooltip("If checked the current X Axis of the object won't be scaled")]
         public bool lockXAxis = false;

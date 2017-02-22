@@ -1,59 +1,48 @@
 ﻿using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 
 public class Gravitational_Pulsar : MonoBehaviour
 {
-    // Gravitiational Pulsar Variables
-    private bool gp_Pick = false;
-    private bool gp_DropLaunch = false;
-  //  [HideInInspector]
-    public GameObject rigArea;
-  //  [HideInInspector]
-    public float grabDistance = 10.0f;
-   // [HideInInspector]
+    [HideInInspector]
     public Transform gp_ReferencePoint;
-    private float throwForce = 10.0f;
-  //  [HideInInspector]
-    public ForceMode throwForceMode;
-  //  [HideInInspector]
-    public float maxYDim;
-   // [HideInInspector]
-    public float speedMultiplier;
-  //  [HideInInspector]
-    public AnimationCurve forceOverDist;
-    private GameObject heldObject = null;
-   // [HideInInspector]
+    [HideInInspector]
     public LayerMask gp_LayerMask = -1;
-
-  //  [HideInInspector]
+    [HideInInspector]
+    public AnimationCurve forceOverDist;
+    [HideInInspector]
     public Animator _Animator;
-  //  [HideInInspector]
+    [HideInInspector]
     public AudioSource gp_Grab;
-  //  [HideInInspector]
+    [HideInInspector]
     public AudioSource gp_Drop;
-  //  [HideInInspector]
+    [HideInInspector]
     public AudioSource gp_Carry;
-  //  [HideInInspector]
+    [HideInInspector]
     public AudioSource gp_Fire;
+
+    private bool b_Grab = false;
+    private bool b_Carrying = false;
+    private float grabDistance = 10.0f;
+    private float throwForce = 10.0f;
+    private float maxYDim;
+    private float speedMultiplier;
+    private ForceMode throwForceMode = ForceMode.Force;
+    private GameObject heldObject = null;
 
     void Update()
     {
         if (heldObject == null)
         {
-            gp_Pick = true;
-            // gp_DropLaunch = false;
+            b_Grab = true;
+            b_Carrying = false;
         }
         else
         {
             heldObject.transform.position = gp_ReferencePoint.position;
             heldObject.transform.rotation = gp_ReferencePoint.rotation;
-
-            gp_DropLaunch = true;
-
+            b_Carrying = true;
         }
     }
-
     IEnumerator _GrabbedObject()
     {
         float curveTime = 0f;
@@ -65,22 +54,16 @@ public class Gravitational_Pulsar : MonoBehaviour
             yield return null;
         }
     }
-
     public void Grab()
     {
-        if (gp_Pick)
+        if (gp_Grab)
         {
             RaycastHit hit;
-            Debug.Log("Now I'm in here"); // This works
-            Debug.DrawRay(transform.position, transform.forward * grabDistance, Color.cyan);
             if (Physics.Raycast(transform.position, transform.forward, out hit, grabDistance, gp_LayerMask))
             {
-                //Debug.DrawRay(transform.position, transform.forward, Color.green);
-                Debug.Log("Finally made it into here"); // This doesn't
                 if (hit.collider.gameObject.tag == "Throwable")
                 {
-                    Debug.Log("Somehow made it in here");
-                    //_Animator.Play("Grab");
+                    _Animator.Play("Grab");
 
                     heldObject = hit.collider.gameObject;
                     // Add Force to object
@@ -99,51 +82,37 @@ public class Gravitational_Pulsar : MonoBehaviour
 
                     heldObject.GetComponent<Rigidbody>().isKinematic = true;
                     heldObject.GetComponent<Collider>().enabled = true;
-                    //Debug.DrawRay(transform.position, transform.forward, Color.red);
-                    //_Animator.Play("Carry");
-                    gp_Pick = false;
+                    _Animator.Play("Carry");
+                    b_Grab = false;
                     //}
                 }
                 else
                 {
-                    //_Animator.Play("Error");
+                    _Animator.Play("Error");
                 }
             }
-            else
-            {
-
-                //print(Physics.Raycast(transform.position, transform.forward, out hit, grabDistance, gp_LayerMask));
-            }
-
-
-        }
-        
+        }       
     }
-
     public void Drop()
     {
-        if (gp_DropLaunch)
+        if (b_Carrying)
         {
-            //_Animator.Play("Fire");
+            _Animator.Play("Fire");
+            heldObject.GetComponent<Rigidbody>().isKinematic = false;
+            heldObject = null;
+            b_Carrying = false;
+        }
+    }
+    public void Launch()
+    {
+        if (b_Carrying)
+        {
+            _Animator.Play("Drop");
             Rigidbody body = heldObject.GetComponent<Rigidbody>();
             body.isKinematic = false;
             body.AddForce(throwForce * transform.forward, throwForceMode);
             heldObject = null;
-           // Debug.DrawRay(transform.position, transform.forward, Color.red);
-            gp_DropLaunch = false;
-        }
-    }
-
-    public void Launch()
-    {
-        if (gp_DropLaunch)
-        {
-            //_Animator.Play("Drop");
-            Rigidbody body = heldObject.GetComponent<Rigidbody>();
-            body.isKinematic = false;
-            heldObject = null;
-            //Debug.DrawRay(transform.position, transform.forward, Color.red);
-            gp_DropLaunch = false;
+            b_Carrying = false;
         }
     }
 }

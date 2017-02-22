@@ -18,7 +18,7 @@ namespace VRTK
     /// The basic teleporter updates the user's x/z position in the game world to the position of a Base Pointer's tip location which is set via the `DestinationMarkerSet` event.
     /// </summary>
     /// <remarks>
-    /// The y position is never altered so the basic teleporter cannot be used to move up and down game objects as it only allows for travel across a flat plane.
+    /// The y position is never altered so the basic teleporter cannot be used to vrEvents up and down game objects as it only allows for travel across a flat plane.
     /// </remarks>
     /// <example>
     /// `VRTK/Examples/004_CameraRig_BasicTeleport` uses the `VRTK_SimplePointer` script on the Controllers to initiate a laser pointer by pressing the `Touchpad` on the controller and when the laser pointer is deactivated (release the `Touchpad`) then the user is teleported to the location of the laser pointer tip as this is where the pointer destination marker position is set to.

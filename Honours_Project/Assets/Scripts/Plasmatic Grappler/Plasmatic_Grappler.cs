@@ -156,4 +156,28 @@ public class Plasmatic_Grappler : MonoBehaviour
         }
     }
 
+    public void Fire()
+    {
+
+    }
+
+    public void Release()
+    {
+
+    }
+
+    public void Rope()
+    {
+
+    }
+
+    public void ExtendRope()
+    {
+
+    }
+    public void ShortenRope()
+    {
+
+    }
+
 }

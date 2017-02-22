@@ -7,7 +7,7 @@ namespace VRTK
     /// The `VRSimulatorCameraRig` prefab is a mock Camera Rig set up that can be used to develop with VRTK without the need for VR Hardware.
     /// </summary>
     /// <remarks>
-    /// Use the mouse and keyboard to move around both play area and hands and interacting with objects without the need of a hmd or VR controls.
+    /// Use the mouse and keyboard to vrEvents around both play area and hands and interacting with objects without the need of a hmd or VR controls.
     /// </remarks>
     public class SDK_InputSimulator : MonoBehaviour
     {

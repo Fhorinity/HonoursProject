@@ -48,7 +48,7 @@ namespace VRTK
             {
                 rb = gameObject.AddComponent<Rigidbody>();
                 rb.collisionDetectionMode = CollisionDetectionMode.Continuous;
-                rb.angularDrag = 30; // otherwise lever will continue to move too far on its own
+                rb.angularDrag = 30; // otherwise lever will continue to vrEvents too far on its own
             }
             rb.isKinematic = false;
             rb.useGravity = false;

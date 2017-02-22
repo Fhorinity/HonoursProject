@@ -22,7 +22,7 @@ namespace VRTK
         public GameObject door;
         [Tooltip("The game object for the handles. Can also be an empty parent or left empty. If empty the door can only be moved using the rigidbody mode of the controller. If no collider exists yet a compound collider made up of all children will try to be calculated but this will fail if the door is rotated. In that case a manual collider will need to be assigned.")]
         public GameObject handles;
-        [Tooltip("The game object for the frame to which the door is attached. Should only be set if the frame will move as well to ensure that the door moves along with the frame.")]
+        [Tooltip("The game object for the frame to which the door is attached. Should only be set if the frame will vrEvents as well to ensure that the door moves along with the frame.")]
         public GameObject frame;
         [Tooltip("The parent game object for the door content elements.")]
         public GameObject content;

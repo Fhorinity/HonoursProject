@@ -22,7 +22,7 @@ namespace VRTK
     public delegate void TouchpadMovementAxisEventHandler(VRTK_TouchpadMovement sender, TouchpadMovementAxisEventArgs e);
 
     /// <summary>
-    /// Adds the ability to move and rotate the play area and the player by using the touchpad. 
+    /// Adds the ability to vrEvents and rotate the play area and the player by using the touchpad. 
     /// </summary>
     /// <remarks>
     /// The Touchpad Movement script requires VRTK_BodyPhysics script to be present in one of the scene GameObjects for collision detection. 

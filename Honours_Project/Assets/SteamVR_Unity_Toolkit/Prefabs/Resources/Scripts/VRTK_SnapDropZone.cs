@@ -61,7 +61,7 @@ namespace VRTK
         public GameObject highlightObjectPrefab;
         [Tooltip("The Snap Type to apply when a valid interactable object is dropped within the snap zone.")]
         public SnapTypes snapType = SnapTypes.Use_Kinematic;
-        [Tooltip("The amount of time it takes for the object being snapped to move into the new snapped position, rotation and scale.")]
+        [Tooltip("The amount of time it takes for the object being snapped to vrEvents into the new snapped position, rotation and scale.")]
         public float snapDuration = 0f;
         [Tooltip("If this is checked then the scaled size of the snap drop zone will be applied to the object that is snapped to it.")]
         public bool applyScalingOnSnap = false;

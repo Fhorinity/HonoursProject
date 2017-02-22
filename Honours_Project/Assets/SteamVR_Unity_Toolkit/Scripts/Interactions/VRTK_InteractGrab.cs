@@ -17,7 +17,7 @@ namespace VRTK
     ///
     /// When the Controller `Grab` button is released, if the interactable game object is grabbable then it will be propelled in the direction and at the velocity the controller was at, which can simulate object throwing.
     ///
-    /// The interactable objects require a collider to activate the trigger and a rigidbody to pick them up and move them around the game world.
+    /// The interactable objects require a collider to activate the trigger and a rigidbody to pick them up and vrEvents them around the game world.
     /// </remarks>
     /// <example>
     /// `VRTK/Examples/005_Controller/BasicObjectGrabbing` demonstrates the grabbing of interactable objects that have the `VRTK_InteractableObject` script attached to them. The objects can be picked up and thrown around.

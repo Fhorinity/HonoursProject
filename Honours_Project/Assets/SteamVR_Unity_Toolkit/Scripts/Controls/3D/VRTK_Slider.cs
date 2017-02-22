@@ -14,7 +14,7 @@ namespace VRTK
     /// </example>
     public class VRTK_Slider : VRTK_Control
     {
-        [Tooltip("The axis on which the slider should move. All other axis will be frozen.")]
+        [Tooltip("The axis on which the slider should vrEvents. All other axis will be frozen.")]
         public Direction direction = Direction.autodetect;
         [Tooltip("The minimum value of the slider.")]
         public float min = 0f;
@@ -111,7 +111,7 @@ namespace VRTK
             }
             rb.isKinematic = false;
             rb.useGravity = false;
-            rb.drag = 10; // otherwise slider will continue to move too far on its own
+            rb.drag = 10; // otherwise slider will continue to vrEvents too far on its own
         }
 
         private void SetConstraints(Direction direction)

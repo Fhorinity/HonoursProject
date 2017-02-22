@@ -564,7 +564,7 @@ namespace Valve.VR.InteractionSystem
 				if ( attachedObjects.Count > 0 )
 				{
 					// Holding down the mouse:
-					// move around a fixed distance from the camera
+					// vrEvents around a fixed distance from the camera
 					transform.position = ray.origin + noSteamVRFallbackInteractorDistance * ray.direction;
 				}
 				else
@@ -573,7 +573,7 @@ namespace Valve.VR.InteractionSystem
 					// cast out a ray to see what we should mouse over
 
 					// Don't want to hit the hand and anything underneath it
-					// So move it back behind the camera when we do the raycast
+					// So vrEvents it back behind the camera when we do the raycast
 					Vector3 oldPosition = transform.position;
 					transform.position = noSteamVRFallbackCamera.transform.forward * ( -1000.0f );
 

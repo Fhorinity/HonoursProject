@@ -25,7 +25,7 @@ namespace VRTK.GrabAttachMechanics
         }
 
         /// <summary>
-        /// The ProcessFixedUpdate method is run in every FixedUpdate method on the interactable object. It applies a force to the grabbed object to move it in the direction of the grabbing object.
+        /// The ProcessFixedUpdate method is run in every FixedUpdate method on the interactable object. It applies a force to the grabbed object to vrEvents it in the direction of the grabbing object.
         /// </summary>
         public override void ProcessFixedUpdate()
         {

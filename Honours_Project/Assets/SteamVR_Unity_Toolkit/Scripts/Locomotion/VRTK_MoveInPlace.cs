@@ -5,13 +5,13 @@ namespace VRTK
     using System.Collections.Generic;
 
     /// <summary>
-    /// Move In Place allows the user to move the play area by calculating the y-movement of the user's headset and/or controllers. The user is propelled forward the more they are moving. This simulates moving in game by moving in real life.
+    /// Move In Place allows the user to vrEvents the play area by calculating the y-movement of the user's headset and/or controllers. The user is propelled forward the more they are moving. This simulates moving in game by moving in real life.
     /// </summary>
     /// <remarks>
     ///   > This locomotion method is based on Immersive Movement, originally created by Highsight.
     /// </remarks>
     /// <example>
-    /// `VRTK/Examples/042_CameraRig_MoveInPlace` demonstrates how the user can move and traverse colliders by either swinging the controllers in a walking fashion or by running on the spot utilisng the head bob for movement.
+    /// `VRTK/Examples/042_CameraRig_MoveInPlace` demonstrates how the user can vrEvents and traverse colliders by either swinging the controllers in a walking fashion or by running on the spot utilisng the head bob for movement.
     /// </example>
     [RequireComponent(typeof(VRTK_BodyPhysics))]
     public class VRTK_MoveInPlace : MonoBehaviour
@@ -32,10 +32,10 @@ namespace VRTK
         /// <summary>
         /// Options for which method is used to determine player direction while moving.
         /// </summary>
-        /// <param name="Gaze">Player will always move in the direction they are currently looking.</param>
-        /// <param name="ControllerRotation">Player will move in the direction that the controllers are pointing (averaged).</param>
-        /// <param name="DumbDecoupling">Player will move in the direction they were first looking when they engaged Move In Place.</param>
-        /// <param name="SmartDecoupling">Player will move in the direction they are looking only if their headset point the same direction as their controllers.</param>
+        /// <param name="Gaze">Player will always vrEvents in the direction they are currently looking.</param>
+        /// <param name="ControllerRotation">Player will vrEvents in the direction that the controllers are pointing (averaged).</param>
+        /// <param name="DumbDecoupling">Player will vrEvents in the direction they were first looking when they engaged Move In Place.</param>
+        /// <param name="SmartDecoupling">Player will vrEvents in the direction they are looking only if their headset point the same direction as their controllers.</param>
         public enum DirectionalMethod
         {
             Gaze,
@@ -70,10 +70,10 @@ namespace VRTK
             }
         }
 
-        [Tooltip("If this is checked then the left controller touchpad will be enabled to move the play area. It can also be toggled at runtime.")]
+        [Tooltip("If this is checked then the left controller touchpad will be enabled to vrEvents the play area. It can also be toggled at runtime.")]
         [SerializeField]
         private bool leftController = true;
-        [Tooltip("If this is checked then the right controller touchpad will be enabled to move the play area. It can also be toggled at runtime.")]
+        [Tooltip("If this is checked then the right controller touchpad will be enabled to vrEvents the play area. It can also be toggled at runtime.")]
         [SerializeField]
         private bool rightController = true;
 
@@ -89,7 +89,7 @@ namespace VRTK
         public float speedScale = 1;
 
         [SerializeField]
-        [Tooltip("The max speed the user can move in game units. (If 0 or less, max speed is uncapped)")]
+        [Tooltip("The max speed the user can vrEvents in game units. (If 0 or less, max speed is uncapped)")]
         public float maxSpeed = 4;
 
         [SerializeField]
@@ -127,7 +127,7 @@ namespace VRTK
         // Used to determine the direction when using a decoupling method.
         private Vector3 initalGaze = Vector3.zero;
 
-        // The current move speed of the player. If Move In Place is not active, it will be set to 0.00f.
+        // The current vrEvents speed of the player. If Move In Place is not active, it will be set to 0.00f.
         private float curSpeed = 0.00f;
 
         // The current direction the player is moving. If Move In Place is not active, it will be set to Vector.zero.

@@ -103,7 +103,7 @@ namespace VRTK
             if (rb == null)
             {
                 rb = gameObject.AddComponent<Rigidbody>();
-                rb.angularDrag = 10; // otherwise knob will continue to move too far on its own
+                rb.angularDrag = 10; // otherwise knob will continue to vrEvents too far on its own
             }
             rb.isKinematic = false;
             rb.useGravity = false;

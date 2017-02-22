@@ -4,7 +4,7 @@ namespace VRTK
     using UnityEngine;
 
     /// <summary>
-    /// The ability to move the play area around the game world by sliding a finger over the touchpad is achieved using this script.
+    /// The ability to vrEvents the play area around the game world by sliding a finger over the touchpad is achieved using this script.
     /// </summary>
     /// <remarks>
     /// The Touchpad Walking script adds a rigidbody and a box collider to the user's position to prevent them from walking through other collidable game objects.
@@ -34,10 +34,10 @@ namespace VRTK
             }
         }
 
-        [Tooltip("If this is checked then the left controller touchpad will be enabled to move the play area. It can also be toggled at runtime.")]
+        [Tooltip("If this is checked then the left controller touchpad will be enabled to vrEvents the play area. It can also be toggled at runtime.")]
         [SerializeField]
         private bool leftController = true;
-        [Tooltip("If this is checked then the right controller touchpad will be enabled to move the play area. It can also be toggled at runtime.")]
+        [Tooltip("If this is checked then the right controller touchpad will be enabled to vrEvents the play area. It can also be toggled at runtime.")]
         [SerializeField]
         private bool rightController = true;
 

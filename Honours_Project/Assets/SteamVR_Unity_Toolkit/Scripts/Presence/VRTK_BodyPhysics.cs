@@ -29,7 +29,7 @@ namespace VRTK
     ///
     /// Upon actually moving in the play area, the rigidbody is set to kinematic to prevent the world from being pushed back in the user's view reducing sickness.
     ///
-    /// The body physics script also deals with snapping a user to the nearest floor if they look over a ledge or walk up stairs then it will move the play area to simulate movement in the scene.
+    /// The body physics script also deals with snapping a user to the nearest floor if they look over a ledge or walk up stairs then it will vrEvents the play area to simulate movement in the scene.
     ///
     /// To allow for peeking over a ledge and not falling, a fall restiction can happen by keeping a controller over the existing floor and the snap to the nearest floor will not happen until the controllers are also over the floor.
     /// </remarks>
