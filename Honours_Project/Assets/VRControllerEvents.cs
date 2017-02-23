@@ -167,20 +167,20 @@ public class VRControllerEvents : MonoBehaviour
         {
             axis = device.GetAxis(Valve.VR.EVRButtonId.k_EButton_Axis0);
             onTouchpad.Invoke(axis);
-            if (!menuOpen)
-                if (useMovementControls)
-                    rig.position += (headset.transform.right * axis.x + headset.transform.forward * axis.y) * accelmultipler * Time.deltaTime;
+          //  if (!menuOpen)
+               // if (useMovementControls)
+                //    rig.position += (headset.transform.right * axis.x + headset.transform.forward * axis.y) * accelmultipler * Time.deltaTime;
            
         }
         else if (controller.GetTouch(touchpad)) // touchpad
         {
             axis = device.GetAxis(Valve.VR.EVRButtonId.k_EButton_Axis0);
             onTouch.Invoke(axis);
-            if (useMovementControls)
-            {
-                if (!menuOpen)
-                rig.position += (headset.transform.right * axis.x + headset.transform.forward * axis.y) * accelmultipler * Time.deltaTime;
-            }  
+       //     if (useMovementControls)
+          //  {
+            //    if (!menuOpen)
+             //   rig.position += (headset.transform.right * axis.x + headset.transform.forward * axis.y) * accelmultipler * Time.deltaTime;
+          //  }  
         }
     }   
 }
