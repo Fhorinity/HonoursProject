@@ -28,6 +28,8 @@ public class Gravitational_Pulsar : MonoBehaviour
     private float speedMultiplier;
     private ForceMode throwForceMode = ForceMode.Force;
     private GameObject heldObject = null;
+    private ReticleChanger reticleChange;
+    
 
     void Update()
     {
@@ -63,6 +65,7 @@ public class Gravitational_Pulsar : MonoBehaviour
             {
                 if (hit.collider.gameObject.tag == "Throwable")
                 {
+                    reticleChange.inRange = true;
                     _Animator.Play("Grab");
 
                     heldObject = hit.collider.gameObject;
@@ -88,6 +91,7 @@ public class Gravitational_Pulsar : MonoBehaviour
                 }
                 else
                 {
+                    reticleChange.inRange = false;
                     _Animator.Play("Error");
                 }
             }

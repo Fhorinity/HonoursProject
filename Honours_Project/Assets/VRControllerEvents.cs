@@ -42,18 +42,18 @@ public class VRControllerEvents : MonoBehaviour
 
     private bool menuOpen = true;
     // Movement Variables
-    public Transform rig;
-    [HideInInspector]
-    public Transform headset; 
-    private float accelmultipler = 5;
-    [HideInInspector]
-    public AudioSource walking;
-    [HideInInspector]
-    public AudioSource running;
-    [HideInInspector]
-    public AudioSource jumping;
-    [HideInInspector]
-    public Grounding groundCheck;
+ //   public Transform rig;
+  //  [HideInInspector]
+  //  public Transform headset; 
+ //   private float accelmultipler = 5;
+  //  [HideInInspector]
+  //  public AudioSource walking;
+  //  [HideInInspector]
+  //  public AudioSource running;
+  //  [HideInInspector]
+  //  public AudioSource jumping;
+  //  [HideInInspector]
+ //   public Grounding groundCheck;
 
     [HideInInspector]
     public GameObject menuLeft;
@@ -159,8 +159,8 @@ public class VRControllerEvents : MonoBehaviour
         {
             onGripPress.Invoke();
 
-            if (groundCheck.isGrounding)
-                rig.GetComponent<Rigidbody>().AddForce(new Vector3(0, 1000, 0));                
+         //   if (groundCheck.isGrounding)
+         //       rig.GetComponent<Rigidbody>().AddForce(new Vector3(0, 1000, 0));                
         }
         // press
         if (controller.GetPress(touchpad)) // touch
