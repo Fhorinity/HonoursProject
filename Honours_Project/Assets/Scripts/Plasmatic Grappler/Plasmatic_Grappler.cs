@@ -114,6 +114,11 @@ public class Plasmatic_Grappler : MonoBehaviour
     //[HideInInspector]
     public AudioSource pg_Release;
 
+    private VRControllerEvents vrEvents;
+    [HideInInspector]
+    public Vector2 axis = Vector2.zero;
+    private Controls ctrl;
+
     void Update()
     {
         if (isFlying)
@@ -168,16 +173,19 @@ public class Plasmatic_Grappler : MonoBehaviour
 
     public void Rope()
     {
+        if (ctrl.menuOpen)
+        {
+            if (vrEvents.rightController)
+            {
+                if (axis.y < -0.1)
+                {
 
+                }
+                if (axis.y > 0.1)
+                {
+
+                }
+            }
+        }
     }
-
-    public void ExtendRope()
-    {
-
-    }
-    public void ShortenRope()
-    {
-
-    }
-
 }

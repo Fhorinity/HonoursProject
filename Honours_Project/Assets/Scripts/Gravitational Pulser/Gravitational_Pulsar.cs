@@ -29,6 +29,8 @@ public class Gravitational_Pulsar : MonoBehaviour
     private ForceMode throwForceMode = ForceMode.Force;
     private GameObject heldObject = null;
     private ReticleChanger reticleChange;
+    [HideInInspector]
+    public Vector2 axis = Vector2.zero;
     
 
     void Update()
@@ -99,12 +101,15 @@ public class Gravitational_Pulsar : MonoBehaviour
     }
     public void Drop()
     {
-        if (b_Carrying)
+        if (axis.x == 0 || axis.y == 0)
         {
-            _Animator.Play("Fire");
-            heldObject.GetComponent<Rigidbody>().isKinematic = false;
-            heldObject = null;
-            b_Carrying = false;
+            if (b_Carrying)
+            {
+                _Animator.Play("Fire");
+                heldObject.GetComponent<Rigidbody>().isKinematic = false;
+                heldObject = null;
+                b_Carrying = false;
+            }
         }
     }
     public void Launch()
