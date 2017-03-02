@@ -8,8 +8,8 @@ public class TriggerAxisEvent : UnityEvent<float> { }
 [RequireComponent(typeof(SteamVR_TrackedObject))]
 
 public class VRControllerEvents : MonoBehaviour
-{   
-    [HideInInspector]     
+{
+    [HideInInspector]
     public bool rightController = false;
     [HideInInspector]
     public bool leftController = false;
@@ -22,17 +22,21 @@ public class VRControllerEvents : MonoBehaviour
     public EIndex controllerType;
     // Vive Control Variables //
     public UnityEvent onTriggerPress;
-    [HideInInspector] 
+    public Transform rig;
+    public Transform headset;
+    private Vector2 axis = Vector2.zero;
+    private int accelMultiplier = 5;
+    [HideInInspector]
     public TriggerAxisEvent onTrigger;
     public UnityEvent onTriggerRelease;
     [HideInInspector]
     public UnityEvent onApplicationMenuPress;
     public UnityEvent onApplicationMenu;
-    public UnityEvent onGripPress;
-    public TouchpadAxisEvent onTouch;
     [HideInInspector]
     public TouchpadAxisEvent onTouchpadPress;
-    public TouchpadAxisEvent onTouchpad;
+    private Grounding groundCheck;
+    public bool menuOpen = true;
+    private MenuDisplay display;
 
     private Valve.VR.EVRButtonId gripButton = Valve.VR.EVRButtonId.k_EButton_Grip;
     private Valve.VR.EVRButtonId triggerButton = Valve.VR.EVRButtonId.k_EButton_SteamVR_Trigger;
@@ -42,13 +46,15 @@ public class VRControllerEvents : MonoBehaviour
     private SteamVR_Controller.Device controller { get { return SteamVR_Controller.Input((int)trackedObj.index); } }
     private SteamVR_TrackedObject trackedObj;
 
-    
+    private bool strafing = true;
+
     [HideInInspector]
     public Controls ctrl;
 
     void Start()
     {
-        trackedObj = GetComponent<SteamVR_TrackedObject>();        
+
+        trackedObj = GetComponent<SteamVR_TrackedObject>();
     }
     void Update()
     {
@@ -94,25 +100,71 @@ public class VRControllerEvents : MonoBehaviour
         // press
         if (controller.GetPress(applicationMenu))
         {
-            onApplicationMenu.Invoke();
+            menuOpen = !menuOpen;
         }
         // up
         // GRIP BUTTON
         // down
         if (controller.GetPressDown(gripButton))
         {
-            onGripPress.Invoke();             
+            if (groundCheck.isGrounding)
+            {
+                rig.GetComponent<Rigidbody>().AddForce(new Vector3(0, 1000, 0));
+            }
         }
         // press
         if (controller.GetPress(touchpad)) // touch
         {
-            ctrl.axis = device.GetAxis(Valve.VR.EVRButtonId.k_EButton_Axis0);
-            onTouchpad.Invoke(ctrl.axis);           
+            axis = device.GetAxis(Valve.VR.EVRButtonId.k_EButton_Axis0);
+            if (controllerType == EIndex.LeftController)
+            {
+                if (strafing)
+                {
+                    rig.position += (headset.transform.right * axis.x + headset.transform.forward * axis.y) * accelMultiplier * Time.deltaTime; // With Strafing
+                }
+                else if (!strafing)
+                {
+                    rig.position += (headset.transform.forward * axis.y) * accelMultiplier * Time.deltaTime; // Without Strafing
+                }
+            }
+            if (controllerType == EIndex.RightController) // Rope Lengthen / Shorten
+            {
+                if (axis.y > 0.7)
+                {
+                    print("Above 0.7");
+                }
+                if (axis.y < -0.7)
+                {
+                    print("Below -0.7");
+                }
+            }
         }
+
         else if (controller.GetTouch(touchpad)) // touchpad
         {
-            ctrl.axis = device.GetAxis(Valve.VR.EVRButtonId.k_EButton_Axis0);
-            onTouch.Invoke(ctrl.axis); 
+            axis = device.GetAxis(Valve.VR.EVRButtonId.k_EButton_Axis0);
+            if (controllerType == EIndex.LeftController)
+            {
+                if (strafing)
+                {
+                    rig.position += (headset.transform.right * axis.x + headset.transform.forward * axis.y) * accelMultiplier * Time.deltaTime; // With Strafing
+                }
+                else if (!strafing)
+                {
+                    rig.position += (headset.transform.forward * axis.y) * accelMultiplier * Time.deltaTime; // Without Strafing
+                }
+            }
         }
-    }   
+        if (controllerType == EIndex.RightController) // Rope Lengthen / Shorten
+        {
+            if (axis.y > 0.7)
+            {
+                print("Above 0.7");
+            }
+            if (axis.y < -0.7)
+            {
+                print("Below -0.7");
+            }
+        }
+    }
 }

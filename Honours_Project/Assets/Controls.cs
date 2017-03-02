@@ -28,13 +28,13 @@ public class Controls : MonoBehaviour
     private Grounding groundCheck;
     private VRControllerEvents vrEvents;
     [HideInInspector]
-    public bool menuOpen;
+  //  public bool menuOpen;
     private float accelMultiplier = 5;
 
     private int index;
     private bool m_selected = false;
     private bool m_highlighted = false;
-    private bool strafing;
+    public bool strafing;
     private bool b_Cage = false;
     private bool b_TransparentCage = false;
     private bool b_NoCage = false;
@@ -71,169 +71,170 @@ public class Controls : MonoBehaviour
 
     private int maxIndex;
 
-    void Start()
-    {
-        menuOpen = true;
-        b_MenuOne = true;
-        b_MenuTwo = false;
-        b_MenuThree = false;
-        b_MenuFour = false;
-        b_MenuOptions = false;
-    }
-    // Update is called once per frame
-    void Update()
-    {
-        if (index > maxIndex)
-        {
-            index = 0;
-        }
-        if (menuOpen)
-        {
-            if (b_MenuOne)
-            {
-                maxIndex = 4;
-                t_Start.enabled = true;
-                t_Options.enabled = true;
-                t_Credits.enabled = true;
-                t_Quit.enabled = true;
-            }
-            else
-            {
-                t_Start.enabled = false;
-                t_Options.enabled = false;
-                t_Credits.enabled = false;
-                t_Quit.enabled = false;
-            }
-            if (b_MenuTwo)
-            {
-                maxIndex = 2;
-                t_StrafeOn.enabled = true;
-                t_StafeOff.enabled = true;
-            }
-            else
-            {
-                t_StrafeOn.enabled = false;
-                t_StafeOff.enabled = false;
-            }
-            if (b_MenuThree)
-            {
-                maxIndex = 3;
-                t_Cage.enabled = true;
-                t_TransparentCage.enabled = true;
-                t_NoCage.enabled = true;
-            }
-            else
-            {
-                t_Cage.enabled = false;
-                t_TransparentCage.enabled = false;
-                t_NoCage.enabled = false;
-            }
-            if (b_MenuFour)
-            {
-                maxIndex = 2;
-                t_Latch.enabled = true;
-                t_SpecificLatch.enabled = true;
-            }
-            else
-            {
-                t_Latch.enabled = false;
-                t_SpecificLatch.enabled = false;
-            }
-            if (b_MenuOptions)
-            {
-                //maxIndex = 2;
-                t_SoundBar.enabled = true;
-                t_FXBar.enabled = true;
-            }
-            else
-            {
-                t_SoundBar.enabled = false;
-                t_FXBar.enabled = false;
-            }
-            menuRight.SetActive(true);
-            menuLeft.SetActive(true);
-            gameLeft.SetActive(false);
-            gameRight.SetActive(false);
-        }
-        else if (!menuOpen)
-        {
-            b_MenuOne = false;
-            b_MenuTwo = false;
-            b_MenuThree = false;
-            b_MenuFour = false;
-            b_MenuOptions = false;
+    //void Start()
+    //{
+        
+    //    b_MenuOne = true;
+    //    b_MenuTwo = false;
+    //    b_MenuThree = false;
+    //    b_MenuFour = false;
+    //    b_MenuOptions = false;
+    //}
+    //// Update is called once per frame
+    //void Update()
+    //{
+    //    if (index > maxIndex)
+    //    {
+    //        index = 0;
+    //    }
+    //    if (vrEvents.menuOpen)
+    //    {
+    //        if (b_MenuOne)
+    //        {
+    //            maxIndex = 4;
+    //            t_Start.enabled = true;
+    //            t_Options.enabled = true;
+    //            t_Credits.enabled = true;
+    //            t_Quit.enabled = true;
+    //        }
+    //        else
+    //        {
+    //            t_Start.enabled = false;
+    //            t_Options.enabled = false;
+    //            t_Credits.enabled = false;
+    //            t_Quit.enabled = false;
+    //        }
+    //        if (b_MenuTwo)
+    //        {
+    //            maxIndex = 2;
+    //            t_StrafeOn.enabled = true;
+    //            t_StafeOff.enabled = true;
+    //        }
+    //        else
+    //        {
+    //            t_StrafeOn.enabled = false;
+    //            t_StafeOff.enabled = false;
+    //        }
+    //        if (b_MenuThree)
+    //        {
+    //            maxIndex = 3;
+    //            t_Cage.enabled = true;
+    //            t_TransparentCage.enabled = true;
+    //            t_NoCage.enabled = true;
+    //        }
+    //        else
+    //        {
+    //            t_Cage.enabled = false;
+    //            t_TransparentCage.enabled = false;
+    //            t_NoCage.enabled = false;
+    //        }
+    //        if (b_MenuFour)
+    //        {
+    //            maxIndex = 2;
+    //            t_Latch.enabled = true;
+    //            t_SpecificLatch.enabled = true;
+    //        }
+    //        else
+    //        {
+    //            t_Latch.enabled = false;
+    //            t_SpecificLatch.enabled = false;
+    //        }
+    //        if (b_MenuOptions)
+    //        {
+    //            //maxIndex = 2;
+    //            t_SoundBar.enabled = true;
+    //            t_FXBar.enabled = true;
+    //        }
+    //        else
+    //        {
+    //            t_SoundBar.enabled = false;
+    //            t_FXBar.enabled = false;
+    //        }
+    //        menuRight.SetActive(true);
+    //        menuLeft.SetActive(true);
+    //        gameLeft.SetActive(false);
+    //        gameRight.SetActive(false);
+    //    }
+    //    else if (!vrEvents.menuOpen)
+    //    {
+    //        b_MenuOne = false;
+    //        b_MenuTwo = false;
+    //        b_MenuThree = false;
+    //        b_MenuFour = false;
+    //        b_MenuOptions = false;
 
-            menuRight.SetActive(false);
-            menuLeft.SetActive(false);
-            gameLeft.SetActive(true);
-            gameRight.SetActive(true);
-        }
-    }
-    public void Jump()
+    //        menuRight.SetActive(false);
+    //        menuLeft.SetActive(false);
+    //        gameLeft.SetActive(true);
+    //        gameRight.SetActive(true);
+    //    }
+    //}
+    //public void Jump()
+    //{
+    //    if (!vrEvents.menuOpen)
+    //    {
+    //        if (groundCheck.isGrounding)
+    //        rig.GetComponent<Rigidbody>().AddForce(new Vector3(0, 1000, 0));
+    //    }
+    //}
+    //public void Movement()
+    //{
+    //    if (!vrEvents.menuOpen)
+    //    {
+    //        if (strafing)
+    //        {
+    //            rig.position += (headset.transform.right * axis.x + headset.transform.forward * axis.y) * accelMultiplier * Time.deltaTime;
+    //        }
+    //        else
+    //        {
+    //            rig.position += (headset.transform.right + headset.transform.forward * axis.y) * accelMultiplier * Time.deltaTime;
+    //        }
+    //    }
+    //}
+    public void MenuDisplay()
     {
-        if (!menuOpen)
-        {
-            if (groundCheck.isGrounding)
-            rig.GetComponent<Rigidbody>().AddForce(new Vector3(0, 1000, 0));
-        }
-    }
-    public void Movement()
-    {
-        if (!menuOpen)
-        {
-            if (strafing)
-            {
-                rig.position += (headset.transform.right * axis.x + headset.transform.forward * axis.y) * accelMultiplier * Time.deltaTime;
-            }
-            else
-            {
-                rig.position += (headset.transform.right + headset.transform.forward * axis.y) * accelMultiplier * Time.deltaTime;
-            }
-        }
+        
     }
 
-    public void MenuNavigation()
-    {       
-        if (menuOpen)
-        {
-            if (vrEvents.leftController)
-            {
-                if (axis.x > 0.1)
-                {
-                    index++;
-                }
-                if (axis.x < -0.1)
-                {
-                    index--;
-                }
-                if (axis.y < -0.1)
-                {
-                    index--;
-                }
-                if (axis.y > 0.1)
-                {
-                    index++;
-                }
-            }
-            if (vrEvents.rightController)
-            {
-                if (axis.y < -0.1)
-                {
+    //public void MenuNavigation()
+    //{       
+    //    if (vrEvents.menuOpen)
+    //    {
+    //        if (vrEvents.leftController)
+    //        {
+    //            if (axis.x > 0.1)
+    //            {
+    //                index++;
+    //            }
+    //            if (axis.x < -0.1)
+    //            {
+    //                index--;
+    //            }
+    //            if (axis.y < -0.1)
+    //            {
+    //                index--;
+    //            }
+    //            if (axis.y > 0.1)
+    //            {
+    //                index++;
+    //            }
+    //        }
+    //        if (vrEvents.rightController)
+    //        {
+    //            if (axis.y < -0.1)
+    //            {
 
-                }
-                if (axis.y > 0.1)
-                {
+    //            }
+    //            if (axis.y > 0.1)
+    //            {
 
-                }
-            }
-        }
-    }
-    public void DisplayMenu()
-    {
-        menuOpen = !menuOpen;
-    }
-    public void Respawn()
-    {
+    //            }
+    //        }
+    //    }
+    //}
+  
+    //public void Respawn()
+    //{
 
-    }
+    //}
 }

@@ -10,8 +10,8 @@ public class ControlsEditor : Editor
         Controls ctrl = (Controls)target;
        //ctrl.move = EditorGUILayout.ObjectField("Events Reference: ", ctrl.move, typeof(VRControllerEvents), true) as VRControllerEvents;
         EditorGUILayout.Space();
-        ctrl.rig = EditorGUILayout.ObjectField("Camera Rig: ", ctrl.rig, typeof(Transform), true) as Transform;
-        ctrl.headset = EditorGUILayout.ObjectField("Headset: ", ctrl.headset, typeof(Transform), true) as Transform;
+     //   ctrl.rig = EditorGUILayout.ObjectField("Camera Rig: ", ctrl.rig, typeof(Transform), true) as Transform;
+       // ctrl.headset = EditorGUILayout.ObjectField("Headset: ", ctrl.headset, typeof(Transform), true) as Transform;
         //ctrl.groundCheck = EditorGUILayout.ObjectField("Ground Check: ", ctrl.groundCheck, typeof(Grounding), true) as Grounding;
         EditorGUILayout.Space();
         ctrl.menuLeft = EditorGUILayout.ObjectField("Left Menu Controls: ", ctrl.menuLeft, typeof(GameObject), true) as GameObject;

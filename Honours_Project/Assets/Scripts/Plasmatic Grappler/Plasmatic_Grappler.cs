@@ -117,7 +117,7 @@ public class Plasmatic_Grappler : MonoBehaviour
     private VRControllerEvents vrEvents;
     [HideInInspector]
     public Vector2 axis = Vector2.zero;
-    private Controls ctrl;
+    private VRControllerEvents ctrl;
 
     void Update()
     {
@@ -173,19 +173,19 @@ public class Plasmatic_Grappler : MonoBehaviour
 
     public void Rope()
     {
-        if (ctrl.menuOpen)
-        {
-            if (vrEvents.rightController)
-            {
-                if (axis.y < -0.1)
-                {
+    ////    if (ctrl.menuOpen)
+    //    {
+    //        if (vrEvents.rightController)
+    //        {
+    //            if (axis.y < -0.1)
+    //            {
 
-                }
-                if (axis.y > 0.1)
-                {
+    //            }
+    //            if (axis.y > 0.1)
+    //            {
 
-                }
-            }
-        }
+    //            }
+    //        }
+    //    }
     }
 }
