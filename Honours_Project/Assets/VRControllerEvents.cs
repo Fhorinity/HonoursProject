@@ -37,6 +37,8 @@ public class VRControllerEvents : MonoBehaviour
     private Grounding groundCheck;
     public bool menuOpen = true;
     private MenuDisplay display;
+    private Rope line;
+    private MenuManager menu;
 
     private Valve.VR.EVRButtonId gripButton = Valve.VR.EVRButtonId.k_EButton_Grip;
     private Valve.VR.EVRButtonId triggerButton = Valve.VR.EVRButtonId.k_EButton_SteamVR_Trigger;
@@ -48,12 +50,9 @@ public class VRControllerEvents : MonoBehaviour
 
     private bool strafing = true;
 
-    [HideInInspector]
-    public Controls ctrl;
-
     void Start()
     {
-
+        menu = GetComponent<MenuManager>();
         trackedObj = GetComponent<SteamVR_TrackedObject>();
     }
     void Update()
@@ -95,16 +94,21 @@ public class VRControllerEvents : MonoBehaviour
         // down
         if (controller.GetPressDown(applicationMenu))
         {
+            //menuOpen = !menuOpen;
             onApplicationMenuPress.Invoke();
         }
         // press
         if (controller.GetPress(applicationMenu))
         {
-            menuOpen = !menuOpen;
+            if (controllerType == EIndex.RightController)
+            {
+                menu.p_Open = !menu.p_Open;
+            }
+            if (controllerType == EIndex.LeftController)
+            {
+                Respawn();
+            }
         }
-        // up
-        // GRIP BUTTON
-        // down
         if (controller.GetPressDown(gripButton))
         {
             if (groundCheck.isGrounding)
@@ -112,7 +116,6 @@ public class VRControllerEvents : MonoBehaviour
                 rig.GetComponent<Rigidbody>().AddForce(new Vector3(0, 1000, 0));
             }
         }
-        // press
         if (controller.GetPress(touchpad)) // touch
         {
             axis = device.GetAxis(Valve.VR.EVRButtonId.k_EButton_Axis0);
@@ -160,11 +163,17 @@ public class VRControllerEvents : MonoBehaviour
             if (axis.y > 0.7)
             {
                 print("Above 0.7");
+                line.startPos.position += transform.forward * accelMultiplier * Time.deltaTime; //Shortens the distance of rope
             }
             if (axis.y < -0.7)
             {
                 print("Below -0.7");
+                line.startPos.position -= transform.forward * accelMultiplier * Time.deltaTime; // Extends the distance of rope
             }
         }
+    }
+    public void Respawn()
+    {
+        print("Resapwning");
     }
 }

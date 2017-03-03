@@ -1,0 +1,408 @@
+﻿using System.Collections;
+using System.Collections.Generic;
+using UnityEngine;
+using UnityEngine.UI;
+
+public class MenuManager : MonoBehaviour
+{
+    private VRControllerEvents vrEvents;
+    public GameObject m_One;
+    public GameObject m_Two;
+    public GameObject m_Three;
+    public GameObject m_Four;
+    public GameObject m_Options;
+    public GameObject m_Credits;
+    public GameObject m_Pause;
+
+    public GameObject menuLeft;
+    public GameObject menuRight;
+    public GameObject gameLeft;
+    public GameObject gameRight;
+
+    // 1st Menu
+    public Text t_Start;
+    public Text t_Options;
+    public Text t_Credits;
+    public Text t_Quit;
+
+    // 2nd Menu
+    public Text t_StrafeOn;
+    public Text t_StafeOff;
+
+    // 3rd Menu
+    public Text t_Cage;
+    public Text t_TransparentCage;
+    public Text t_NoCage;
+
+    // 4th Menu
+    public Text t_Latch;
+    public Text t_SpecificLatch;
+
+    public Text t_SoundBar;
+    public Text t_FXBar;
+    public GameObject menu;
+
+    private bool b_Strafing;
+    private bool b_Cage = false;
+    private bool b_TransparentCage = false;
+    private bool b_NoCage = false;
+    private bool b_SpecificLatch = false;
+    private bool b_MenuCredits = false;
+    private bool b_MenuOne = true;
+    private bool b_MenuTwo = false;
+    private bool b_MenuThree = false;
+    private bool b_MenuFour = false;
+    private bool b_MenuOptions = false;
+    private bool b_MenuPause = false;
+
+    public bool m_Open;
+    public bool p_Open;
+
+    void Start()
+    {
+        m_Open = true;
+        vrEvents = GetComponent<VRControllerEvents>();
+    }
+    void Update()
+    {
+        if (m_Open)
+        {
+            p_Open = false;
+            
+            menu.SetActive(true);
+            if (b_MenuOne)
+            {
+                m_One.SetActive(true);
+            }
+            else
+            {
+                m_One.SetActive(false);
+            }
+            if (b_MenuTwo)
+            {
+                m_Two.SetActive(true);
+            }
+            else
+            {
+                m_Two.SetActive(false);
+            }
+            if (b_MenuThree)
+            {
+                m_Three.SetActive(true);
+            }
+            else
+            {
+                m_Three.SetActive(false);
+            }
+            if (b_MenuFour)
+            {
+                m_Four.SetActive(true);
+            }
+            else
+            {
+                m_Four.SetActive(false);
+            }
+            if (b_MenuOptions)
+            {
+                m_Options.SetActive(true);
+            }
+            else
+            {
+                m_Options.SetActive(false);
+            }
+            if (b_MenuCredits)
+            {
+                m_Credits.SetActive(true);
+            }
+            else
+            {
+                m_Credits.SetActive(false);
+            }
+            menuRight.SetActive(true);
+            menuLeft.SetActive(true);
+            gameLeft.SetActive(false);
+            gameRight.SetActive(false);
+        }
+        if (p_Open)
+        {
+            m_Open = false;
+            menu.SetActive(true);
+            if (b_MenuPause)
+            {
+                m_Pause.SetActive(true);
+            }
+            else
+            {
+                m_Pause.SetActive(false);
+            }
+            if (b_MenuTwo)
+            {
+                m_Two.SetActive(true);
+            }
+            else
+            {
+                m_Two.SetActive(false);
+            }
+            if (b_MenuThree)
+            {
+                m_Three.SetActive(true);
+            }
+            else
+            {
+                m_Three.SetActive(false);
+            }
+            if (b_MenuFour)
+            {
+                m_Four.SetActive(true);
+            }
+            else
+            {
+                m_Four.SetActive(false);
+            }
+            if (b_MenuOptions)
+            {
+                m_Options.SetActive(true);
+            }
+            else
+            {
+                m_Options.SetActive(false);
+            }
+            if (b_MenuCredits)
+            {
+                m_Credits.SetActive(true);
+            }
+            menuRight.SetActive(true);
+            menuLeft.SetActive(true);
+            gameLeft.SetActive(false);
+            gameRight.SetActive(false);
+
+            if (!m_Open || !p_Open)
+            {
+                menu.SetActive(false);
+                menuRight.SetActive(false);
+                gameLeft.SetActive(true);
+                gameRight.SetActive(true);
+            }
+        }
+    }
+    public void Play()
+    {
+        b_MenuOne = false;
+        b_MenuTwo = true;
+    }
+    public void Resume()
+    {
+        p_Open = false;
+    }
+    public void Options()
+    {
+        if (p_Open)
+        {
+            b_MenuPause = false;
+            b_MenuOptions = true;
+        }
+        if (m_Open)
+        {
+            b_MenuOne = false;
+            b_MenuOptions = true;
+        }
+    }
+    public void Credits()
+    {
+        if (p_Open)
+        {
+            b_MenuPause = false;
+            b_MenuCredits = true;
+        }
+        if (m_Open)
+        {
+            b_MenuOne = false;
+            b_MenuCredits = true;
+        }
+    }
+    public void Quit()
+    {
+        Application.Quit();
+    }
+    public void Y_Strafing()
+    {
+        b_Strafing = true;
+        if (p_Open)
+        {
+            b_MenuPause = true;
+            b_MenuTwo = false;
+        }
+        if (m_Open)
+        {
+            b_MenuTwo = false;
+            b_MenuThree = true;
+        }
+    }
+    public void N_Stafing()
+    {
+        b_Strafing = false;
+        if (p_Open)
+        {
+            b_MenuPause = true;
+            b_MenuTwo = false;
+        }
+        if (m_Open)
+        {
+            b_MenuTwo = false;
+            b_MenuThree = true;
+        }
+    }
+    public void Strafing()
+    {
+        b_MenuPause = false;
+        b_MenuTwo = true;
+    }
+    public void Latching()
+    {
+        b_MenuPause = false;
+        b_MenuFour = true;
+    }
+    public void Cages()
+    {
+        b_MenuPause = false;
+        b_MenuThree = true;
+    }
+    public void Latch() // Bugging
+    {
+        b_SpecificLatch = false;
+        if (p_Open)
+        {
+            b_MenuPause = true;
+            b_MenuFour = false;
+        }
+        if (m_Open)
+        {
+            b_MenuFour = false;
+            m_Open = false;
+        }
+    }
+    public void SpecficLatch() // Bugging
+    {
+        b_SpecificLatch = true;
+        if (p_Open)
+        {
+            b_MenuPause = true;
+            b_MenuFour = false;
+        }
+        if (m_Open)
+        {
+            b_MenuFour = false;
+            m_Open = false;
+        }
+    }
+    public void Cage()
+    {
+        b_Cage = true;
+        if (p_Open)
+        {
+            b_MenuPause = true;
+            b_MenuThree = false;
+        }
+        if (m_Open)
+        {
+            b_MenuThree = false;
+            b_MenuFour = true;
+        }
+    }
+    public void TransCage()
+    {
+        b_TransparentCage = true;
+        if (p_Open)
+        {
+            b_MenuPause = true;
+            b_MenuThree = false;
+        }
+        if (m_Open)
+        {
+            b_MenuThree = false;
+            b_MenuFour = true;
+        }
+    }
+    public void NullCage()
+    {
+        b_NoCage = true;
+        if (p_Open)
+        {
+            b_MenuPause = true;
+            b_MenuThree = false;
+        }
+        if (m_Open)
+        {
+            b_MenuThree = false;
+            b_MenuFour = true;
+        }
+    }
+    public void Back()
+    {
+        if (b_MenuTwo == true)
+        {
+            if (p_Open)
+            {
+                b_MenuPause = true;
+                b_MenuTwo = false;
+            }
+            if (m_Open)
+            {
+                b_MenuOne = true;
+                b_MenuTwo = false;
+            }
+        }
+        if (b_MenuThree == true)
+        {
+            if (p_Open)
+            {
+                b_MenuPause = true;
+                b_MenuThree = false;
+            }
+            if (m_Open)
+            {
+                b_MenuTwo = true;
+                b_MenuThree = false;
+            }
+        }
+        if (b_MenuFour == true) // Bugging
+        {
+            if (p_Open)
+            {
+                b_MenuPause = true;
+                b_MenuFour = false;
+            }
+            if (m_Open)
+            {
+                b_MenuThree = true;
+                b_MenuFour = false;
+            }
+        }
+        if (b_MenuOptions == true)
+        {
+            if (p_Open)
+            {
+                b_MenuPause = true;
+                b_MenuOptions = false;
+            }
+            if (m_Open)
+            {
+                b_MenuOne = true;
+                b_MenuOptions = false;
+            }
+        }
+        if (b_MenuCredits == true)
+        {
+            if (p_Open)
+            {
+                b_MenuPause = true;
+                b_MenuCredits = false;
+            }
+            if (m_Open)
+            {
+                b_MenuOne = true;
+                b_MenuCredits = false;
+            }
+        }
+    }
+}
