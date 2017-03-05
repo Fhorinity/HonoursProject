@@ -136,6 +136,17 @@ public class VRControllerEvents : MonoBehaviour
                         rig.position += (headset.transform.forward * axis.y) * accelMultiplier * Time.deltaTime; // Without Strafing
                     }
                 }
+                if (menu.menuState != Type.None)
+                {
+                    if (Input.GetButtonDown("Left Horizontal Movement"))
+                    {
+                        print("Left|Right. Above 0.7");
+                    }
+                    if (Input.GetButtonDown("Left Vertical Movement"))
+                    {
+                        print("Up|Down. Below -0.7");
+                    }
+                }
             }
             if (controllerType == EIndex.RightController) // Rope Lengthen / Shorten
             {
@@ -143,23 +154,30 @@ public class VRControllerEvents : MonoBehaviour
                 {
                     if (axis.y > 0.7)
                     {
-                        this.events.
-                        print("Above 0.7");
+                        if (Input.GetButtonDown("Right Press"))
+                        {
+                            print("No Menu. Above 0.7");
+                        }
                     }
                     if (axis.y < -0.7)
                     {
-                        print("Below -0.7");
+                        if (Input.GetButtonDown("Right Press "))
+                            print("No Menu. Below -0.7");
                     }
                 }
-                if (menu.menuState == Type.Pause || menu.menuState == Type.Main)
+                if (menu.menuState != Type.None)
                 {
                     if (axis.y > 0.7)
                     {
-                        print("Above 0.7");
+                        if (Input.GetButtonDown("Right Press"))
+                        {
+                            print("Menu is displaying. Above 0.7");
+                        }
                     }
                     if (axis.y < -0.7)
                     {
-                        print("Below -0.7");
+                        if (Input.GetButtonDown("Right Press "))
+                            print("Menu is displaying. Below -0.7");
                     }
                 }
             }
@@ -180,34 +198,48 @@ public class VRControllerEvents : MonoBehaviour
                         rig.position += (headset.transform.forward * axis.y) * accelMultiplier * Time.deltaTime; // Without Strafing
                     }
                 }
+                if (menu.menuState != Type.None)
+                {
+                    if (Input.GetButtonDown("Left Horizontal Movement"))
+                    {
+                        print("Touch Left|Right. Above 0.7");
+                    }
+                    if (Input.GetButtonDown("Left Vertical Movement"))
+                    {
+                        print("Touch Up|Down. Below -0.7");
+                    }
+                }
             }
-
             if (controllerType == EIndex.RightController) // Rope Lengthen / Shorten
             {
                 if (menu.menuState == Type.None)
                 {
                     if (axis.y > 0.7)
                     {
-                        print("Above 0.7");
-                        line.startPos.position += transform.forward * accelMultiplier * Time.deltaTime; //Shortens the distance of rope
+                        if (Input.GetButtonDown("Right Press"))
+                        {
+                            print("Touch No Menu. Above 0.7");
+                        }
                     }
                     if (axis.y < -0.7)
                     {
-                        print("Below -0.7");
-                        line.startPos.position -= transform.forward * accelMultiplier * Time.deltaTime; // Extends the distance of rope
+                        if (Input.GetButtonDown("Right Press "))
+                            print("Touch No Menu. Below -0.7");
                     }
                 }
-                if (menu.menuState == Type.Pause || menu.menuState == Type.Main)
+                if (menu.menuState != Type.None)
                 {
                     if (axis.y > 0.7)
                     {
-                        print("Above 0.7");
-                        
+                        if (Input.GetButtonDown("Right Press"))
+                        {
+                            print("Touch Menu is displaying. Above 0.7");
+                        }
                     }
                     if (axis.y < -0.7)
                     {
-                        print("Below -0.7");
-                    //    this.events.sendNavigationEvents(ISubmitHandler);   
+                        if (Input.GetButtonDown("Right Press "))
+                            print("Touch Menu is displaying. Below -0.7");
                     }
                 }
             }
