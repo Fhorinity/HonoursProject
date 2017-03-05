@@ -1,5 +1,6 @@
 ﻿using UnityEngine;
 using UnityEngine.Events;
+using UnityEngine.EventSystems;
 
 [System.Serializable]
 public class TouchpadAxisEvent : UnityEvent<Vector2> { }
@@ -22,6 +23,7 @@ public class VRControllerEvents : MonoBehaviour
     public EIndex controllerType;
     // Vive Control Variables //
     public UnityEvent onTriggerPress;
+    private EventSystem events;
     public Transform rig;
     public Transform headset;
     private Vector2 axis = Vector2.zero;
@@ -36,7 +38,6 @@ public class VRControllerEvents : MonoBehaviour
     public TouchpadAxisEvent onTouchpadPress;
     private Grounding groundCheck;
     public bool menuOpen = true;
-    private MenuDisplay display;
     private Rope line;
     private MenuManager menu;
 
@@ -102,7 +103,10 @@ public class VRControllerEvents : MonoBehaviour
         {
             if (controllerType == EIndex.RightController)
             {
-                menu.p_Open = !menu.p_Open;
+                if (menu.menuState != Type.Main)
+                {
+                    menuOpen = !menuOpen;
+                }
             }
             if (controllerType == EIndex.LeftController)
             {
@@ -121,54 +125,91 @@ public class VRControllerEvents : MonoBehaviour
             axis = device.GetAxis(Valve.VR.EVRButtonId.k_EButton_Axis0);
             if (controllerType == EIndex.LeftController)
             {
-                if (strafing)
+                if (menu.menuState == Type.None)
                 {
-                    rig.position += (headset.transform.right * axis.x + headset.transform.forward * axis.y) * accelMultiplier * Time.deltaTime; // With Strafing
-                }
-                else if (!strafing)
-                {
-                    rig.position += (headset.transform.forward * axis.y) * accelMultiplier * Time.deltaTime; // Without Strafing
+                    if (menu.b_Strafing)
+                    {
+                        rig.position += (headset.transform.right * axis.x + headset.transform.forward * axis.y) * accelMultiplier * Time.deltaTime; // With Strafing
+                    }
+                    else if (!menu.b_Strafing)
+                    {
+                        rig.position += (headset.transform.forward * axis.y) * accelMultiplier * Time.deltaTime; // Without Strafing
+                    }
                 }
             }
             if (controllerType == EIndex.RightController) // Rope Lengthen / Shorten
             {
-                if (axis.y > 0.7)
+                if (menu.menuState == Type.None)
                 {
-                    print("Above 0.7");
+                    if (axis.y > 0.7)
+                    {
+                        this.events.
+                        print("Above 0.7");
+                    }
+                    if (axis.y < -0.7)
+                    {
+                        print("Below -0.7");
+                    }
                 }
-                if (axis.y < -0.7)
+                if (menu.menuState == Type.Pause || menu.menuState == Type.Main)
                 {
-                    print("Below -0.7");
+                    if (axis.y > 0.7)
+                    {
+                        print("Above 0.7");
+                    }
+                    if (axis.y < -0.7)
+                    {
+                        print("Below -0.7");
+                    }
                 }
             }
         }
-
         else if (controller.GetTouch(touchpad)) // touchpad
         {
             axis = device.GetAxis(Valve.VR.EVRButtonId.k_EButton_Axis0);
             if (controllerType == EIndex.LeftController)
             {
-                if (strafing)
+                if (menu.menuState == Type.None)
                 {
-                    rig.position += (headset.transform.right * axis.x + headset.transform.forward * axis.y) * accelMultiplier * Time.deltaTime; // With Strafing
-                }
-                else if (!strafing)
-                {
-                    rig.position += (headset.transform.forward * axis.y) * accelMultiplier * Time.deltaTime; // Without Strafing
+                    if (menu.b_Strafing)
+                    {
+                        rig.position += (headset.transform.right * axis.x + headset.transform.forward * axis.y) * accelMultiplier * Time.deltaTime; // With Strafing
+                    }
+                    else if (!menu.b_Strafing)
+                    {
+                        rig.position += (headset.transform.forward * axis.y) * accelMultiplier * Time.deltaTime; // Without Strafing
+                    }
                 }
             }
-        }
-        if (controllerType == EIndex.RightController) // Rope Lengthen / Shorten
-        {
-            if (axis.y > 0.7)
+
+            if (controllerType == EIndex.RightController) // Rope Lengthen / Shorten
             {
-                print("Above 0.7");
-                line.startPos.position += transform.forward * accelMultiplier * Time.deltaTime; //Shortens the distance of rope
-            }
-            if (axis.y < -0.7)
-            {
-                print("Below -0.7");
-                line.startPos.position -= transform.forward * accelMultiplier * Time.deltaTime; // Extends the distance of rope
+                if (menu.menuState == Type.None)
+                {
+                    if (axis.y > 0.7)
+                    {
+                        print("Above 0.7");
+                        line.startPos.position += transform.forward * accelMultiplier * Time.deltaTime; //Shortens the distance of rope
+                    }
+                    if (axis.y < -0.7)
+                    {
+                        print("Below -0.7");
+                        line.startPos.position -= transform.forward * accelMultiplier * Time.deltaTime; // Extends the distance of rope
+                    }
+                }
+                if (menu.menuState == Type.Pause || menu.menuState == Type.Main)
+                {
+                    if (axis.y > 0.7)
+                    {
+                        print("Above 0.7");
+                        
+                    }
+                    if (axis.y < -0.7)
+                    {
+                        print("Below -0.7");
+                    //    this.events.sendNavigationEvents(ISubmitHandler);   
+                    }
+                }
             }
         }
     }

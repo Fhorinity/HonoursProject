@@ -3,6 +3,13 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
 
+public enum Type
+{
+    None = -1,
+    Main,
+    Pause
+}
+
 public class MenuManager : MonoBehaviour
 {
     private VRControllerEvents vrEvents;
@@ -13,186 +20,160 @@ public class MenuManager : MonoBehaviour
     public GameObject m_Options;
     public GameObject m_Credits;
     public GameObject m_Pause;
-
     public GameObject menuLeft;
     public GameObject menuRight;
     public GameObject gameLeft;
     public GameObject gameRight;
+    public GameObject cage;
+    public GameObject transCage;
 
-    // 1st Menu
     public Text t_Start;
     public Text t_Options;
     public Text t_Credits;
     public Text t_Quit;
-
-    // 2nd Menu
     public Text t_StrafeOn;
     public Text t_StafeOff;
-
-    // 3rd Menu
     public Text t_Cage;
     public Text t_TransparentCage;
     public Text t_NoCage;
-
-    // 4th Menu
     public Text t_Latch;
     public Text t_SpecificLatch;
-
     public Text t_SoundBar;
     public Text t_FXBar;
     public GameObject menu;
-
-    private bool b_Strafing;
+    [HideInInspector]
+    public bool b_Strafing;
+    
     private bool b_Cage = false;
     private bool b_TransparentCage = false;
     private bool b_NoCage = false;
-    private bool b_SpecificLatch = false;
+    [HideInInspector]
+    public bool b_SpecificLatch = false;
     private bool b_MenuCredits = false;
     private bool b_MenuOne = true;
     private bool b_MenuTwo = false;
     private bool b_MenuThree = false;
     private bool b_MenuFour = false;
     private bool b_MenuOptions = false;
-    private bool b_MenuPause = false;
-
-    public bool m_Open;
-    public bool p_Open;
+    private bool b_MenuPause = true;
+    private bool m_Open;
+    private bool p_Open;
+    public Type menuState; 
 
     void Start()
     {
-        m_Open = true;
+        menuState = Type.Main;
         vrEvents = GetComponent<VRControllerEvents>();
     }
     void Update()
     {
-        if (m_Open)
+        if (menuState == Type.Main) // If Menu State is Main and then you switch to pause it will still display 
         {
+            m_Open = true;
             p_Open = false;
-            
             menu.SetActive(true);
-            if (b_MenuOne)
-            {
-                m_One.SetActive(true);
-            }
-            else
-            {
-                m_One.SetActive(false);
-            }
-            if (b_MenuTwo)
-            {
-                m_Two.SetActive(true);
-            }
-            else
-            {
-                m_Two.SetActive(false);
-            }
-            if (b_MenuThree)
-            {
-                m_Three.SetActive(true);
-            }
-            else
-            {
-                m_Three.SetActive(false);
-            }
-            if (b_MenuFour)
-            {
-                m_Four.SetActive(true);
-            }
-            else
-            {
-                m_Four.SetActive(false);
-            }
-            if (b_MenuOptions)
-            {
-                m_Options.SetActive(true);
-            }
-            else
-            {
-                m_Options.SetActive(false);
-            }
-            if (b_MenuCredits)
-            {
-                m_Credits.SetActive(true);
-            }
-            else
-            {
-                m_Credits.SetActive(false);
-            }
-            menuRight.SetActive(true);
-            menuLeft.SetActive(true);
-            gameLeft.SetActive(false);
-            gameRight.SetActive(false);
+            MenuControls();
         }
-        if (p_Open)
+        if (menuState == Type.Pause)
         {
+            p_Open = true;
             m_Open = false;
             menu.SetActive(true);
-            if (b_MenuPause)
-            {
-                m_Pause.SetActive(true);
-            }
-            else
-            {
-                m_Pause.SetActive(false);
-            }
-            if (b_MenuTwo)
-            {
-                m_Two.SetActive(true);
-            }
-            else
-            {
-                m_Two.SetActive(false);
-            }
-            if (b_MenuThree)
-            {
-                m_Three.SetActive(true);
-            }
-            else
-            {
-                m_Three.SetActive(false);
-            }
-            if (b_MenuFour)
-            {
-                m_Four.SetActive(true);
-            }
-            else
-            {
-                m_Four.SetActive(false);
-            }
-            if (b_MenuOptions)
-            {
-                m_Options.SetActive(true);
-            }
-            else
-            {
-                m_Options.SetActive(false);
-            }
-            if (b_MenuCredits)
-            {
-                m_Credits.SetActive(true);
-            }
-            menuRight.SetActive(true);
-            menuLeft.SetActive(true);
-            gameLeft.SetActive(false);
-            gameRight.SetActive(false);
-
-            if (!m_Open || !p_Open)
-            {
-                menu.SetActive(false);
-                menuRight.SetActive(false);
-                gameLeft.SetActive(true);
-                gameRight.SetActive(true);
-            }
+            MenuControls();
         }
+        if (menuState == Type.None)
+        {
+            p_Open = false;
+            m_Open = false;
+            menu.SetActive(false);
+            GameControls();
+        }
+        if (p_Open && b_MenuPause)
+        {
+            m_Pause.SetActive(true);
+        }
+        else if (p_Open && !b_MenuPause)
+        {
+            m_Pause.SetActive(false);
+        }
+        else if (!p_Open && !b_MenuPause)
+        {
+            m_Pause.SetActive(false);
+        }
+        if (m_Open && b_MenuOne)
+        {
+            m_One.SetActive(true);
+        }
+        else if (m_Open && !b_MenuOne)
+        {
+            m_One.SetActive(false);
+        }
+        else if (!m_Open && !b_MenuOne)
+        {
+            m_One.SetActive(false);
+        }
+        if (b_MenuTwo)
+        {
+            m_Two.SetActive(true);
+        }
+        else
+        {
+            m_Two.SetActive(false);
+        }
+        if (b_MenuThree)
+        {
+            m_Three.SetActive(true);
+        }
+        else
+        {
+            m_Three.SetActive(false);
+        }
+        if (b_MenuFour)
+        {
+            m_Four.SetActive(true);
+            Debug.Log("Set to true");
+        }
+        else
+        {
+            m_Four.SetActive(false);
+
+        }
+        if (b_MenuOptions)
+        {
+            m_Options.SetActive(true);
+        }
+        else
+        {
+            m_Options.SetActive(false);
+        }
+        if (b_MenuCredits)
+        {
+            m_Credits.SetActive(true);
+        }
+        else
+        {
+            m_Credits.SetActive(false);
+        }
+        
+    }
+    public void MenuControls()
+    {
+        menuRight.SetActive(true);
+        menuLeft.SetActive(true);
+        gameLeft.SetActive(false);
+        gameRight.SetActive(false);
+    }
+    public void GameControls()
+    {
+        menuLeft.SetActive(false);
+        menuRight.SetActive(false);
+        gameLeft.SetActive(true);
+        gameRight.SetActive(true);
     }
     public void Play()
     {
         b_MenuOne = false;
         b_MenuTwo = true;
-    }
-    public void Resume()
-    {
-        p_Open = false;
     }
     public void Options()
     {
@@ -252,22 +233,7 @@ public class MenuManager : MonoBehaviour
             b_MenuThree = true;
         }
     }
-    public void Strafing()
-    {
-        b_MenuPause = false;
-        b_MenuTwo = true;
-    }
-    public void Latching()
-    {
-        b_MenuPause = false;
-        b_MenuFour = true;
-    }
-    public void Cages()
-    {
-        b_MenuPause = false;
-        b_MenuThree = true;
-    }
-    public void Latch() // Bugging
+    public void Latch()
     {
         b_SpecificLatch = false;
         if (p_Open)
@@ -278,10 +244,10 @@ public class MenuManager : MonoBehaviour
         if (m_Open)
         {
             b_MenuFour = false;
-            m_Open = false;
+            menuState = Type.None;
         }
     }
-    public void SpecficLatch() // Bugging
+    public void SpecficLatch()
     {
         b_SpecificLatch = true;
         if (p_Open)
@@ -289,15 +255,16 @@ public class MenuManager : MonoBehaviour
             b_MenuPause = true;
             b_MenuFour = false;
         }
-        if (m_Open)
+       if (m_Open)
         {
             b_MenuFour = false;
-            m_Open = false;
+            menuState = Type.None;
         }
     }
     public void Cage()
     {
         b_Cage = true;
+        cage.SetActive(true);
         if (p_Open)
         {
             b_MenuPause = true;
@@ -312,6 +279,7 @@ public class MenuManager : MonoBehaviour
     public void TransCage()
     {
         b_TransparentCage = true;
+        transCage.SetActive(true);
         if (p_Open)
         {
             b_MenuPause = true;
@@ -326,6 +294,8 @@ public class MenuManager : MonoBehaviour
     public void NullCage()
     {
         b_NoCage = true;
+        cage.SetActive(false);
+        transCage.SetActive(false);
         if (p_Open)
         {
             b_MenuPause = true;
@@ -336,6 +306,21 @@ public class MenuManager : MonoBehaviour
             b_MenuThree = false;
             b_MenuFour = true;
         }
+    }
+    public void Strafing()
+    {
+        b_MenuPause = false;
+        b_MenuTwo = true;
+    }
+    public void Latching()
+    {
+        b_MenuPause = false;
+        b_MenuFour = true;
+    }
+    public void Cages()
+    {
+        b_MenuPause = false;
+        b_MenuThree = true;
     }
     public void Back()
     {
@@ -365,7 +350,7 @@ public class MenuManager : MonoBehaviour
                 b_MenuThree = false;
             }
         }
-        if (b_MenuFour == true) // Bugging
+        if (b_MenuFour == true)
         {
             if (p_Open)
             {
