@@ -53,7 +53,7 @@ public class VRControllerEvents : MonoBehaviour
 
     void Start()
     {
-        menu = GetComponent<MenuManager>();
+        menu = GameObject.FindGameObjectWithTag("Script_Manager").GetComponent<MenuManager>();
         trackedObj = GetComponent<SteamVR_TrackedObject>();
     }
     void Update()
@@ -146,14 +146,14 @@ public class VRControllerEvents : MonoBehaviour
                 {
                     if (axis.y > 0.7)
                     {
-                        if (Input.GetButtonDown("Right Press"))
+                        if (Input.GetButtonDown("Right Back"))
                         {
-                            print("No Menu. Above 0.7");
+                           // menu.Back();
                         }
                     }
                     if (axis.y < -0.7)
                     {
-                        if (Input.GetButtonDown("Right Press "))
+                        if (Input.GetButtonDown("Right Submit"))
                             print("No Menu. Below -0.7");
                     }
                 }
@@ -161,14 +161,14 @@ public class VRControllerEvents : MonoBehaviour
                 {
                     if (axis.y > 0.7)
                     {
-                        if (Input.GetButtonDown("Right Press"))
+                        if (Input.GetButtonDown("Right Back"))
                         {
-                            print("Menu is displaying. Above 0.7");
+                            menu.Back();
                         }
                     }
                     if (axis.y < -0.7)
                     {
-                        if (Input.GetButtonDown("Right Press "))
+                        if (Input.GetButtonDown("Right Submit"))
                             print("Menu is displaying. Below -0.7");
                     }
                 }
@@ -208,14 +208,14 @@ public class VRControllerEvents : MonoBehaviour
                 {
                     if (axis.y > 0.7)
                     {
-                        if (Input.GetButtonDown("Right Press"))
+                        if (Input.GetButtonDown("Right Back"))
                         {
                             print("Touch No Menu. Above 0.7");
                         }
                     }
                     if (axis.y < -0.7)
                     {
-                        if (Input.GetButtonDown("Right Press "))
+                        if (Input.GetButtonDown("Right Submit"))
                             print("Touch No Menu. Below -0.7");
                     }
                 }
@@ -223,14 +223,15 @@ public class VRControllerEvents : MonoBehaviour
                 {
                     if (axis.y > 0.7)
                     {
-                        if (Input.GetButtonDown("Right Press"))
+                        if (Input.GetButtonDown("Right Back"))
                         {
+                            menu.Back();
                             print("Touch Menu is displaying. Above 0.7");
                         }
                     }
                     if (axis.y < -0.7)
                     {
-                        if (Input.GetButtonDown("Right Press "))
+                        if (Input.GetButtonDown("Right Submit"))
                             print("Touch Menu is displaying. Below -0.7");
                     }
                 }

@@ -42,7 +42,6 @@ public class MenuManager : MonoBehaviour
     public GameObject menu;
     [HideInInspector]
     public bool b_Strafing;
-    
     private bool b_Cage = false;
     private bool b_TransparentCage = false;
     private bool b_NoCage = false;
@@ -62,7 +61,6 @@ public class MenuManager : MonoBehaviour
     void Start()
     {
         menuState = Type.Main;
-        vrEvents = GetComponent<VRControllerEvents>();
     }
     void Update()
     {
@@ -152,8 +150,7 @@ public class MenuManager : MonoBehaviour
         else
         {
             m_Credits.SetActive(false);
-        }
-        
+        }      
     }
     public void MenuControls()
     {
