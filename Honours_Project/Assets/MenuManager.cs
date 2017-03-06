@@ -9,7 +9,6 @@ public enum Type
     Main,
     Pause
 }
-
 public class MenuManager : MonoBehaviour
 {
     private VRControllerEvents vrEvents;
@@ -174,6 +173,7 @@ public class MenuManager : MonoBehaviour
     {
         b_MenuOne = false;
         b_MenuTwo = true;
+        Debug.Log("Clicking working");
     }
     public void Options()
     {

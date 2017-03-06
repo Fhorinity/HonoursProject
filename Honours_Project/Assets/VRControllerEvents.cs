@@ -49,7 +49,7 @@ public class VRControllerEvents : MonoBehaviour
     private SteamVR_Controller.Device controller { get { return SteamVR_Controller.Input((int)trackedObj.index); } }
     private SteamVR_TrackedObject trackedObj;
 
-    private bool strafing = true;
+    private bool strafing;
 
     void Start()
     {
@@ -73,32 +73,24 @@ public class VRControllerEvents : MonoBehaviour
             return;
         }
         var device = SteamVR_Controller.Input((int)trackedObj.index);
-        // TRIGGER
-        // down
         if (controller.GetPressDown(triggerButton))
         {
             onTriggerPress.Invoke();
         }
-        // press
         if (controller.GetPress(triggerButton))
         {
             //float delta = controller.hairTriggerDelta;
             float delta = controller.GetAxis(triggerButton).x;
             onTrigger.Invoke(delta);
         }
-        // up
         if (controller.GetPressUp(triggerButton))
         {
             onTriggerRelease.Invoke();
         }
-        // APPLICATION BUTTON
-        // down
         if (controller.GetPressDown(applicationMenu))
         {
-            //menuOpen = !menuOpen;
             onApplicationMenuPress.Invoke();
         }
-        // press
         if (controller.GetPress(applicationMenu))
         {
             if (controllerType == EIndex.RightController)
