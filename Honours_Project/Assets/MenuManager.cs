@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
+using UnityEngine.EventSystems;
 
 public enum Type
 {
@@ -25,8 +26,10 @@ public class MenuManager : MonoBehaviour
     public GameObject gameRight;
     public GameObject cage;
     public GameObject transCage;
+    public List<GameObject> menuArray = new List<GameObject>(); 
 
-    public Text t_Start;
+    private EventSystem eventSystem;
+    public Text t_Play;
     public Text t_Options;
     public Text t_Credits;
     public Text t_Quit;
@@ -61,6 +64,7 @@ public class MenuManager : MonoBehaviour
     void Start()
     {
         menuState = Type.Main;
+        eventSystem = GameObject.FindObjectOfType<EventSystem>().GetComponent<EventSystem>();
     }
     void Update()
     {
@@ -88,6 +92,7 @@ public class MenuManager : MonoBehaviour
         if (p_Open && b_MenuPause)
         {
             m_Pause.SetActive(true);
+            eventSystem.SetSelectedGameObject(menuArray[6]);
         }
         else if (p_Open && !b_MenuPause)
         {
@@ -100,6 +105,8 @@ public class MenuManager : MonoBehaviour
         if (m_Open && b_MenuOne)
         {
             m_One.SetActive(true);
+            eventSystem.SetSelectedGameObject(menuArray[0]);
+            
         }
         else if (m_Open && !b_MenuOne)
         {
@@ -112,6 +119,8 @@ public class MenuManager : MonoBehaviour
         if (b_MenuTwo)
         {
             m_Two.SetActive(true);
+            eventSystem.SetSelectedGameObject(menuArray[1]);
+       
         }
         else
         {
@@ -119,6 +128,7 @@ public class MenuManager : MonoBehaviour
         }
         if (b_MenuThree)
         {
+            eventSystem.SetSelectedGameObject(menuArray[2]);
             m_Three.SetActive(true);
         }
         else
@@ -128,6 +138,7 @@ public class MenuManager : MonoBehaviour
         if (b_MenuFour)
         {
             m_Four.SetActive(true);
+            eventSystem.SetSelectedGameObject(menuArray[3]);
             Debug.Log("Set to true");
         }
         else
@@ -138,6 +149,7 @@ public class MenuManager : MonoBehaviour
         if (b_MenuOptions)
         {
             m_Options.SetActive(true);
+            eventSystem.SetSelectedGameObject(menuArray[4]);
         }
         else
         {
@@ -146,6 +158,7 @@ public class MenuManager : MonoBehaviour
         if (b_MenuCredits)
         {
             m_Credits.SetActive(true);
+            eventSystem.SetSelectedGameObject(menuArray[5]);
         }
         else
         {
