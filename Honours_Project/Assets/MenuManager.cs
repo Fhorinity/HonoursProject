@@ -59,7 +59,9 @@ public class MenuManager : MonoBehaviour
     private bool b_MenuPause = true;
     private bool m_Open;
     private bool p_Open;
-    public Type menuState; 
+    public Type menuState;
+
+    public Text t_lastSelected;
 
     void Start()
     {
@@ -92,7 +94,7 @@ public class MenuManager : MonoBehaviour
         if (p_Open && b_MenuPause)
         {
             m_Pause.SetActive(true);
-            eventSystem.SetSelectedGameObject(menuArray[6]);
+           // eventSystem.SetSelectedGameObject(menuArray[6]);
         }
         else if (p_Open && !b_MenuPause)
         {
@@ -105,8 +107,10 @@ public class MenuManager : MonoBehaviour
         if (m_Open && b_MenuOne)
         {
             m_One.SetActive(true);
-            eventSystem.SetSelectedGameObject(menuArray[0]);
-            
+           // eventSystem.firstSelectedGameObject = menuArray[0];
+          
+            //  eventSystem.SetSelectedGameObject(menuArray[0]);
+
         }
         else if (m_Open && !b_MenuOne)
         {
@@ -119,7 +123,8 @@ public class MenuManager : MonoBehaviour
         if (b_MenuTwo)
         {
             m_Two.SetActive(true);
-            eventSystem.SetSelectedGameObject(menuArray[1]);
+          //  eventSystem.firstSelectedGameObject = menuArray[1];
+           // eventSystem.SetSelectedGameObject(menuArray[1]);
        
         }
         else
@@ -128,7 +133,7 @@ public class MenuManager : MonoBehaviour
         }
         if (b_MenuThree)
         {
-            eventSystem.SetSelectedGameObject(menuArray[2]);
+         //   eventSystem.SetSelectedGameObject(menuArray[2]);
             m_Three.SetActive(true);
         }
         else
@@ -138,7 +143,7 @@ public class MenuManager : MonoBehaviour
         if (b_MenuFour)
         {
             m_Four.SetActive(true);
-            eventSystem.SetSelectedGameObject(menuArray[3]);
+         //   eventSystem.SetSelectedGameObject(menuArray[3]);
             Debug.Log("Set to true");
         }
         else
@@ -149,7 +154,7 @@ public class MenuManager : MonoBehaviour
         if (b_MenuOptions)
         {
             m_Options.SetActive(true);
-            eventSystem.SetSelectedGameObject(menuArray[4]);
+        //    eventSystem.SetSelectedGameObject(menuArray[4]);
         }
         else
         {
@@ -158,7 +163,7 @@ public class MenuManager : MonoBehaviour
         if (b_MenuCredits)
         {
             m_Credits.SetActive(true);
-            eventSystem.SetSelectedGameObject(menuArray[5]);
+          //  eventSystem.SetSelectedGameObject(menuArray[5]);
         }
         else
         {
@@ -189,6 +194,7 @@ public class MenuManager : MonoBehaviour
     {
         if (p_Open)
         {
+            t_lastSelected = t_Options;
             b_MenuPause = false;
             b_MenuOptions = true;
         }
@@ -343,6 +349,7 @@ public class MenuManager : MonoBehaviour
             }
             if (m_Open)
             {
+                
                 b_MenuOne = true;
                 b_MenuTwo = false;
             }
@@ -401,3 +408,48 @@ public class MenuManager : MonoBehaviour
         }
     }
 }
+
+/*
+    using UnityEngine.EventSystems;
+    public class MenuManager
+    {
+        public SubMenus[] menus;
+        public SubMenu activeMenu;
+        public SubMenu lastActive;
+        public Text lastSelectedTextField;
+
+        public void Play()
+        {
+            if(On the player button)
+            {
+                activeMenu.setActive(false);            
+
+                activeMenu = menus[0];
+
+                lastSelectedTextField = platyButton;
+
+                activeMenu.Setactive(true);
+            }
+
+    //other menus
+
+            if(Go back to other menu)
+            {
+                activeMenu.setActive(false);
+
+                EventSystem.SetCurrentObject(lastSelectedTextField);
+            }
+
+        }
+    }
+    using UnityEngine.EventSystems;
+    public class SubMenu : MonoBehaviour
+    {
+        public Text firstActive
+
+        private void OnEnable()
+        {
+            EventSystem.instance.SetactiveObject(firstActive);
+        }
+    }
+*/

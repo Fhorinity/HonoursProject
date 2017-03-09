@@ -37,7 +37,7 @@ public class VRControllerEvents : MonoBehaviour
     [HideInInspector]
     public TouchpadAxisEvent onTouchpadPress;
     private Grounding groundCheck;
-    public bool menuOpen = true;
+    public bool menuOpen = false;
     private Rope line;
     private MenuManager menu;
 
@@ -65,6 +65,11 @@ public class VRControllerEvents : MonoBehaviour
         if (controllerType == EIndex.RightController)
         {
             rightController = true;
+        }
+
+        if (menuOpen)
+        {
+           // menu.menuState = Type.Pause;
         }
 
         if (controller == null)
@@ -219,7 +224,7 @@ public class VRControllerEvents : MonoBehaviour
                             print("Touch No Menu. Below -0.7");
                     }
                 }
-                if (menu.menuState != Type.None)
+              /*  if (menu.menuState != Type.None)
                 {
                     if (axis.y > 0.7)
                     {
@@ -234,7 +239,7 @@ public class VRControllerEvents : MonoBehaviour
                         if (Input.GetButtonDown("Right Submit"))
                             print("Touch Menu is displaying. Below -0.7");
                     }
-                }
+                }*/
             }
         }
     }
