@@ -4,45 +4,32 @@ using UnityEngine;
 
 public class HookProjectile : MonoBehaviour
 {
-    //public Transform origin;
     public float speed;
     public float maxRange;
- //   public VRControllerEvents vrControllerEvents;
     private float distanceTraveled;
-	
-	void Start ()
+
+    void Update()
     {
-	    	
-	}
-	
-	void Update ()
-    {
-        float travelDistance = this.speed * Time.deltaTime;
-        this.distanceTraveled += travelDistance;
-        Ray ray = new Ray(base.transform.position, base.transform.forward);
+        float maxDistance = this.speed * Time.deltaTime;
+        this.distanceTraveled += maxDistance;
         RaycastHit hit;
-      //  if (vrControllerEvents.grappleHook)
-      //  {
-            if (Physics.Raycast(ray, out hit, travelDistance))
+        if (Physics.Raycast(new Ray(this.transform.position, this.transform.forward), out hit, maxDistance))
+        {
+            if (hit.collider.tag == "Grapplable Surface")
             {
-                //  if (hit.collider.tag == "Grapplable Surface")
-                //{
-                travelDistance = hit.distance;
-                base.transform.position += base.transform.forward * travelDistance;
+                maxDistance = hit.distance;
+                base.transform.position += base.transform.forward * maxDistance;
                 base.transform.parent = hit.transform;
                 base.SendMessage("Grapple Hook Impact");
-                Object.Destroy(this);
-                //}
+                Object.Destroy((Object)this);
             }
-
-            else
-            {
-                base.transform.position += base.transform.forward * travelDistance;
-                if (this.distanceTraveled > this.maxRange)
-                {
-                    Object.Destroy(base.gameObject);
-                }
-            }
-       // }	
-	}
+        }
+        else
+        {
+            this.transform.position += this.transform.forward * maxDistance;
+            if ((double)this.distanceTraveled <= (double)this.maxRange)
+                return;
+            Object.Destroy((Object) this.gameObject);
+        }
+    }
 }

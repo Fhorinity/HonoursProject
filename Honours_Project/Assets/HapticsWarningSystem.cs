@@ -5,11 +5,15 @@ using UnityEngine.UI;
 
 public class HapticsWarningSystem : MonoBehaviour
 {
-    public Text[] text;
-    private bool b_TaskCompleted;
-    private bool b_TaskSet;
-    private int i_FailSafeCounter;
+    //public Text[] text;
+    public bool b_TaskCompleted = false;
+    public bool b_TaskSet = true;
+    public float i_FailSafeCounter = 0f;
+    public AudioSource hapticLoop;
+    public AudioSource hapticPulse;
 	
+   
+
 	// Update is called once per frame
 	void Update ()
     {
@@ -17,24 +21,34 @@ public class HapticsWarningSystem : MonoBehaviour
         {
             if (b_TaskSet)
             {
-                i_FailSafeCounter++;
-                if (i_FailSafeCounter >= 20)
+                i_FailSafeCounter += Time.deltaTime;
+                if (i_FailSafeCounter > 10)
                 {
                     //Display Visual Cue
                 }
-                if (i_FailSafeCounter >= 40)
+                if (i_FailSafeCounter > 20)
                 {
-                    //Haptic Cue
+                    hapticPulse.Play();
+                    hapticPulse.Stop();
                 }
-                if (i_FailSafeCounter > 60)
+                if (i_FailSafeCounter > 30)
                 {
-                    i_FailSafeCounter = 60;
+                    
+                    hapticLoop.Play();
+                    hapticLoop.volume = 0.2f;
+                    hapticLoop.loop = true;
                     //Play constant haptic cue
+                }
+                if (i_FailSafeCounter > 40)
+                {
+                    hapticLoop.volume = 1f;
                 }
             }
 
             if (b_TaskCompleted)
             {
+                hapticLoop.loop = false;
+                hapticLoop.Stop();
                 b_TaskCompleted = false;
                 b_TaskSet = false;
                 //Stop haptic cue && visual cue
@@ -42,4 +56,6 @@ public class HapticsWarningSystem : MonoBehaviour
 
          }	
 	}
+
+
 }

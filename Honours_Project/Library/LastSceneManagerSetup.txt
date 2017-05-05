@@ -1,4 +1,4 @@
 sceneSetups:
-- path: Assets/Main Scene.unity
+- path: Assets/Blind Stick Simulator/Blind Simulator.unity
   isLoaded: 1
   isActive: 1
