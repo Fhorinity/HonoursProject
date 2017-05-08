@@ -44,6 +44,11 @@ public class VRControllerEvents : MonoBehaviour
     public bool grappleHook;
     private HapticsWarningSystem warning;
 
+    public bool experiment1 = false;
+    public bool experiment2 = false;
+    public bool experiment3 = false;
+    public bool experiment4 = false;
+
     private Valve.VR.EVRButtonId gripButton = Valve.VR.EVRButtonId.k_EButton_Grip;
     private Valve.VR.EVRButtonId triggerButton = Valve.VR.EVRButtonId.k_EButton_SteamVR_Trigger;
     private Valve.VR.EVRButtonId touchpad = Valve.VR.EVRButtonId.k_EButton_SteamVR_Touchpad;
@@ -128,26 +133,34 @@ public class VRControllerEvents : MonoBehaviour
             axis = device.GetAxis(Valve.VR.EVRButtonId.k_EButton_Axis0);
             if (controllerType == EIndex.LeftController)
             {
-                if (menu.menuState == Type.None)
+                if (experiment4 || experiment3)
                 {
-                    if (menu.b_Strafing)
-                    {
-                        rig.position += (headset.transform.right * axis.x + headset.transform.forward * axis.y) * accelMultiplier * Time.deltaTime; // With Strafing
-                    }
-                    else if (!menu.b_Strafing)
-                    {
-                        rig.position += (headset.transform.forward * axis.y) * accelMultiplier * Time.deltaTime; // Without Strafing
-                    }
+                    rig.position += (headset.transform.right * axis.x + headset.transform.forward * axis.y) * accelMultiplier * Time.deltaTime;
                 }
-                if (menu.menuState != Type.None)
+                if (experiment1)
                 {
-                    if (Input.GetButtonDown("Left Horizontal Movement"))
+
+                    if (menu.menuState == Type.None)
                     {
-                        print("Left|Right. Above 0.7");
+                        if (menu.b_Strafing)
+                        {
+                            rig.position += (headset.transform.right * axis.x + headset.transform.forward * axis.y) * accelMultiplier * Time.deltaTime; // With Strafing
+                        }
+                        else if (!menu.b_Strafing)
+                        {
+                            rig.position += (headset.transform.forward * axis.y) * accelMultiplier * Time.deltaTime; // Without Strafing
+                        }
                     }
-                    if (Input.GetButtonDown("Left Vertical Movement"))
+                    if (menu.menuState != Type.None)
                     {
-                        print("Up|Down. Below -0.7");
+                        if (Input.GetButtonDown("Left Horizontal Movement"))
+                        {
+                            print("Left|Right. Above 0.7");
+                        }
+                        if (Input.GetButtonDown("Left Vertical Movement"))
+                        {
+                            print("Up|Down. Below -0.7");
+                        }
                     }
                 }
             }
@@ -190,26 +203,33 @@ public class VRControllerEvents : MonoBehaviour
             axis = device.GetAxis(Valve.VR.EVRButtonId.k_EButton_Axis0);
             if (controllerType == EIndex.LeftController)
             {
-                if (menu.menuState == Type.None)
+                if (experiment4 || experiment3)
                 {
-                    if (menu.b_Strafing)
-                    {
-                        rig.position += (headset.transform.right * axis.x + headset.transform.forward * axis.y) * accelMultiplier * Time.deltaTime; // With Strafing
-                    }
-                    else if (!menu.b_Strafing)
-                    {
-                        rig.position += (headset.transform.forward * axis.y) * accelMultiplier * Time.deltaTime; // Without Strafing
-                    }
+                    rig.position += (headset.transform.right * axis.x + headset.transform.forward * axis.y) * accelMultiplier * Time.deltaTime;
                 }
-                if (menu.menuState != Type.None)
+                if (experiment1)
                 {
-                    if (Input.GetButtonDown("Left Horizontal Movement"))
+                    if (menu.menuState == Type.None)
                     {
-                        print("Touch Left|Right. Above 0.7");
+                        if (menu.b_Strafing)
+                        {
+                            rig.position += (headset.transform.right * axis.x + headset.transform.forward * axis.y) * accelMultiplier * Time.deltaTime; // With Strafing
+                        }
+                        else if (!menu.b_Strafing)
+                        {
+                            rig.position += (headset.transform.forward * axis.y) * accelMultiplier * Time.deltaTime; // Without Strafing
+                        }
                     }
-                    if (Input.GetButtonDown("Left Vertical Movement"))
+                    if (menu.menuState != Type.None)
                     {
-                        print("Touch Up|Down. Below -0.7");
+                        if (Input.GetButtonDown("Left Horizontal Movement"))
+                        {
+                            print("Touch Left|Right. Above 0.7");
+                        }
+                        if (Input.GetButtonDown("Left Vertical Movement"))
+                        {
+                            print("Touch Up|Down. Below -0.7");
+                        }
                     }
                 }
             }

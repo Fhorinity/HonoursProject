@@ -1,4 +1,4 @@
 sceneSetups:
-- path: Assets/Experiments/Blind Stick Simulator/Blind Simulator.unity
+- path: Assets/Experiments/Haptic Warning System/Haptic warning system.unity
   isLoaded: 1
   isActive: 1
