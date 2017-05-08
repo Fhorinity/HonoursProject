@@ -16,7 +16,7 @@ public class Trigger1 : MonoBehaviour
         if (other.gameObject.tag == "Blind Stick")
         {
             aud.source.clip = haptic20;
-            aud.source.PlayDelayed(1.25f);
+            aud.source.PlayDelayed(0.5f);
             inTrigger = true;           
         }
     }

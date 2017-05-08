@@ -22,7 +22,7 @@ public class Trigger6 : MonoBehaviour
             if (trig.inTrigger)
             {
                 aud.source.clip = haptic15;
-                aud.source.PlayDelayed(1.25f);
+                aud.source.PlayDelayed(0.5f);
             }
         }
     }
@@ -32,7 +32,7 @@ public class Trigger6 : MonoBehaviour
         if (other.gameObject.tag == "Blind Stick")
         {
             aud.source.clip = haptic16;
-            aud.source.PlayDelayed(1.25f);
+            aud.source.PlayDelayed(0.5f);
             inTrigger = false;
         }
     }

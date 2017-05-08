@@ -7,5 +7,6 @@ public class TriggerManager : MonoBehaviour
     void Start()
     {
         source = GetComponent<AudioSource>();
+        print(source.clip);
     }
 }
