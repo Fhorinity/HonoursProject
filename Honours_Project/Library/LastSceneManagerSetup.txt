@@ -1,4 +1,4 @@
 sceneSetups:
-- path: Assets/Experiments/Haptic Warning System/Haptic warning system.unity
+- path: Assets/Experiments/Experiment 1/Gravitational Pulsar/Test for Gravity Gun.unity
   isLoaded: 1
   isActive: 1
