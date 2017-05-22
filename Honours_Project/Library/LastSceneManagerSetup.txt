@@ -1,4 +1,4 @@
 sceneSetups:
-- path: Assets/Experiments/Experiment 1/Gravitational Pulsar/Test for Gravity Gun.unity
+- path: Assets/Experiments/Blind Stick Simulator/Blind Simulator.unity
   isLoaded: 1
   isActive: 1

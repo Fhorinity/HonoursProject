@@ -39,7 +39,7 @@ public class VRControllerEvents : MonoBehaviour
     private Grounding groundCheck;
     public bool menuOpen = false;
     private Rope line;
-    private MenuManager menu;
+    // private MenuManager menu;
     public Transform grappleHookOrigin;
     public bool grappleHook;
     private HapticsWarningSystem warning;
@@ -61,7 +61,7 @@ public class VRControllerEvents : MonoBehaviour
 
     void Start()
     {
-        menu = GameObject.FindGameObjectWithTag("Script_Manager").GetComponent<MenuManager>();
+        //menu = GameObject.FindGameObjectWithTag("Script_Manager").GetComponent<MenuManager>();
         trackedObj = GetComponent<SteamVR_TrackedObject>();
     }
     void Update()
@@ -77,7 +77,7 @@ public class VRControllerEvents : MonoBehaviour
 
         if (menuOpen)
         {
-           // menu.menuState = Type.Pause;
+            // menu.menuState = Type.Pause;
         }
 
         if (controller == null)
@@ -88,11 +88,11 @@ public class VRControllerEvents : MonoBehaviour
         var device = SteamVR_Controller.Input((int)trackedObj.index);
         if (controller.GetPressDown(triggerButton))
         {
-               
+
         }
         if (controller.GetPress(triggerButton))
         {
-            
+
             //float delta = controller.hairTriggerDelta;
             float delta = controller.GetAxis(triggerButton).x;
             this.grappleHook = !this.grappleHook;
@@ -110,94 +110,95 @@ public class VRControllerEvents : MonoBehaviour
         {
             if (controllerType == EIndex.RightController)
             {
-                if (menu.menuState != Type.Main)
+                ////   if (menu.menuState != Type.Main)
                 {
-                    menuOpen = !menuOpen;
+                    //      menuOpen = !menuOpen;
+                    //  }
+                }
+                if (controllerType == EIndex.LeftController)
+                {
+                    warning.b_TaskCompleted = true;
+                    // Respawn();
                 }
             }
-            if (controllerType == EIndex.LeftController)
+            if (controller.GetPressDown(gripButton))
             {
-                warning.b_TaskCompleted = true;
-                Respawn();
-            }
-        }
-        if (controller.GetPressDown(gripButton))
-        {
-            if (groundCheck.isGrounding)
-            {
-                rig.GetComponent<Rigidbody>().AddForce(new Vector3(0, 1000, 0));
-            }
-        }
-        if (controller.GetPress(touchpad)) // touch
-        {
-            axis = device.GetAxis(Valve.VR.EVRButtonId.k_EButton_Axis0);
-            if (controllerType == EIndex.LeftController)
-            {
-                if (experiment4 || experiment3)
+                if (groundCheck.isGrounding)
                 {
-                    rig.position += (headset.transform.right * axis.x + headset.transform.forward * axis.y) * accelMultiplier * Time.deltaTime;
+                    rig.GetComponent<Rigidbody>().AddForce(new Vector3(0, 1000, 0));
                 }
-                if (experiment1)
+            }
+            if (controller.GetPress(touchpad)) // touch
+            {
+                axis = device.GetAxis(Valve.VR.EVRButtonId.k_EButton_Axis0);
+                if (controllerType == EIndex.LeftController)
                 {
+                    if (experiment4 || experiment3)
+                    {
+                        rig.position += (headset.transform.right * axis.x + headset.transform.forward * axis.y) * accelMultiplier * Time.deltaTime;
+                    }
+                    if (experiment1)
+                    {
 
-                    if (menu.menuState == Type.None)
+                        //   if (menu.menuState == Type.None)
+                        //  {
+                        //     if (menu.b_Strafing)
+                        //     {
+                        //       rig.position += (headset.transform.right * axis.x + headset.transform.forward * axis.y) * accelMultiplier * Time.deltaTime; // With Strafing
+                  //  }
+                    //    else if (!menu.b_Strafing)
+                    //    {
+                    //        rig.position += (headset.transform.forward * axis.y) * accelMultiplier * Time.deltaTime; // Without Strafing
+                    //    }
+                    //  }
+                    //    if (menu.menuState != Type.None)
+                    //  {
+                    if (Input.GetButtonDown("Left Horizontal Movement"))
                     {
-                        if (menu.b_Strafing)
-                        {
-                            rig.position += (headset.transform.right * axis.x + headset.transform.forward * axis.y) * accelMultiplier * Time.deltaTime; // With Strafing
-                        }
-                        else if (!menu.b_Strafing)
-                        {
-                            rig.position += (headset.transform.forward * axis.y) * accelMultiplier * Time.deltaTime; // Without Strafing
-                        }
+                        print("Left|Right. Above 0.7");
                     }
-                    if (menu.menuState != Type.None)
+                    if (Input.GetButtonDown("Left Vertical Movement"))
                     {
-                        if (Input.GetButtonDown("Left Horizontal Movement"))
-                        {
-                            print("Left|Right. Above 0.7");
-                        }
-                        if (Input.GetButtonDown("Left Vertical Movement"))
-                        {
-                            print("Up|Down. Below -0.7");
-                        }
-                    }
-                }
-            }
-            if (controllerType == EIndex.RightController) // Rope Lengthen / Shorten
-            {
-                if (menu.menuState == Type.None)
-                {
-                    if (axis.y > 0.7)
-                    {
-                        if (Input.GetButtonDown("Right Back"))
-                        {
-                           // menu.Back();
-                        }
-                    }
-                    if (axis.y < -0.7)
-                    {
-                        if (Input.GetButtonDown("Right Submit"))
-                            print("No Menu. Below -0.7");
-                    }
-                }
-                if (menu.menuState != Type.None)
-                {
-                    if (axis.y > 0.7)
-                    {
-                        if (Input.GetButtonDown("Right Back"))
-                        {
-                            menu.Back();
-                        }
-                    }
-                    if (axis.y < -0.7)
-                    {
-                        if (Input.GetButtonDown("Right Submit"))
-                            print("Menu is displaying. Below -0.7");
+                        print("Up|Down. Below -0.7");
                     }
                 }
             }
         }
+        if (controllerType == EIndex.RightController) // Rope Lengthen / Shorten
+        {
+            // if (menu.menuState == Type.None)
+            //   {
+            if (axis.y > 0.7)
+            {
+                if (Input.GetButtonDown("Right Back"))
+                {
+                    // menu.Back();
+                }
+            }
+            if (axis.y < -0.7)
+            {
+                if (Input.GetButtonDown("Right Submit"))
+                    print("No Menu. Below -0.7");
+            }
+            //    }
+            //   if (menu.menuState != Type.None)
+            //   {
+            if (axis.y > 0.7)
+            {
+                if (Input.GetButtonDown("Right Back"))
+                {
+                    //     menu.Back();
+                }
+            }
+            if (axis.y < -0.7)
+            {
+                if (Input.GetButtonDown("Right Submit"))
+                    print("Menu is displaying. Below -0.7");
+            }
+        }
+    }
+
+
         else if (controller.GetTouch(touchpad)) // touchpad
         {
             axis = device.GetAxis(Valve.VR.EVRButtonId.k_EButton_Axis0);
@@ -209,34 +210,34 @@ public class VRControllerEvents : MonoBehaviour
                 }
                 if (experiment1)
                 {
-                    if (menu.menuState == Type.None)
-                    {
-                        if (menu.b_Strafing)
-                        {
-                            rig.position += (headset.transform.right * axis.x + headset.transform.forward * axis.y) * accelMultiplier * Time.deltaTime; // With Strafing
-                        }
-                        else if (!menu.b_Strafing)
-                        {
-                            rig.position += (headset.transform.forward * axis.y) * accelMultiplier * Time.deltaTime; // Without Strafing
-                        }
-                    }
-                    if (menu.menuState != Type.None)
-                    {
-                        if (Input.GetButtonDown("Left Horizontal Movement"))
-                        {
-                            print("Touch Left|Right. Above 0.7");
-                        }
-                        if (Input.GetButtonDown("Left Vertical Movement"))
-                        {
-                            print("Touch Up|Down. Below -0.7");
-                        }
-                    }
+                  //  if (menu.menuState == Type.None)
+                 //   {
+                     //   if (menu.b_Strafing)
+                      //  {
+                      //      rig.position += (headset.transform.right * axis.x + headset.transform.forward * axis.y) * accelMultiplier * Time.deltaTime; // With Strafing
+                     //   }
+                      //  else if (!menu.b_Strafing)
+                   //     {
+                      //      rig.position += (headset.transform.forward * axis.y) * accelMultiplier * Time.deltaTime; // Without Strafing
+                      //  }
+                   // }
+                  //  if (menu.menuState != Type.None)
+                  //  {
+                  //      if (Input.GetButtonDown("Left Horizontal Movement"))
+                   //     {
+                  //          print("Touch Left|Right. Above 0.7");
+                   //     }
+                  //      if (Input.GetButtonDown("Left Vertical Movement"))
+                 //       {
+                  //          print("Touch Up|Down. Below -0.7");
+                   //     }
+                //    }
                 }
             }
             if (controllerType == EIndex.RightController) // Rope Lengthen / Shorten
             {
-                if (menu.menuState == Type.None)
-                {
+              //  if (menu.menuState == Type.None)
+              //  {
                     if (axis.y > 0.7)
                     {
                         if (Input.GetButtonDown("Right Back"))
@@ -249,7 +250,7 @@ public class VRControllerEvents : MonoBehaviour
                         if (Input.GetButtonDown("Right Submit"))
                             print("Touch No Menu. Below -0.7");
                     }
-                }
+              //  }
               /*  if (menu.menuState != Type.None)
                 {
                     if (axis.y > 0.7)

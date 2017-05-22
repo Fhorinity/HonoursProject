@@ -1,0 +1,3 @@
+This is a blind game so you won't be able to see anything. If you want to be able to see about. Press the Space bar to turn on / off camera.
+
+If doesn't work please use the shortcut titled "Blind Stick Scene" to run the scene through unity.

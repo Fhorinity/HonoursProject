@@ -9,6 +9,7 @@ public class VRTouchPadMove : MonoBehaviour
     [SerializeField]
     private Transform head;
     private Gravitational_Pulsarv2 pulsar;
+    private CameraSwitch cam;
 
     private Valve.VR.EVRButtonId touchpad = Valve.VR.EVRButtonId.k_EButton_SteamVR_Touchpad;
     private Valve.VR.EVRButtonId triggerButton = Valve.VR.EVRButtonId.k_EButton_SteamVR_Trigger;
@@ -22,6 +23,7 @@ public class VRTouchPadMove : MonoBehaviour
     {
         trackedObj = GetComponent<SteamVR_TrackedObject>();
         pulsar = FindObjectOfType<Gravitational_Pulsarv2>();
+        cam = FindObjectOfType<CameraSwitch>();
 	}
 	
 	void Update ()
@@ -33,6 +35,8 @@ public class VRTouchPadMove : MonoBehaviour
         }
 
         var device = SteamVR_Controller.Input((int)trackedObj.index);
+       
+
         if (controller.GetPress(triggerButton))
         {
             float delta = controller.GetAxis(triggerButton).x;
